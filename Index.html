@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Card Counter Teacher</title>
+  <link href="css/normalize.css" rel="stylesheet">
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>Learn How to Count Cards</h1>
+      <p>Presented to you by Bruce Howard</p>
+    </header>
+		
+    <div class="main">
+      <div>
+        <h2>Dealer</h2>
+        <label id="dlrSum">0</label>
+        <label id="dlrCard1">This is the first card</label>
+        <label id="dlrCard2">This is the second card</label>
+     </div>	
+
+     <div>
+        <h2>Player 1</h2>
+        <label id="plyrSum">0</label>
+        <label id="plyrCard1">This is the first card</label>
+        <label id="plyrCard2">This is the second card</label>
+      </div>
+
+      <form id="registrar">
+        <button id="btnstay" class="btn-stay" type="submit" name="submit" value="Run Dealer">Stay!</button>
+        <button id="btnhitme" class="btn-hitme" type="submit" name="submit" value="submit">Hit Me</button>
+      </form>
+
+    </div>
+  </div>
+  <script type="text/javascript" src="js/carddealer.js"></script>
+</body>
+</html>
