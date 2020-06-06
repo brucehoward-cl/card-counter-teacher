@@ -1,0 +1,13 @@
+label {
+    margin-right: 1.5em;
+}
+
+#dlrSum,
+#plyrSum {
+    display: block;
+    margin-bottom: .5em;
+}
+
+#registrar {
+    margin-top: 2em;
+}
