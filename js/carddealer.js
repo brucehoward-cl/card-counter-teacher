@@ -23,36 +23,26 @@ function randomNumber(upper) {
     return Math.floor( Math.random() * upper ) + 1;
   }
     
+function placeCard(newcard, cardID, sumID) {
+    let card = document.getElementById(cardID);
+    let sum = document.getElementById(sumID);
+    card.textContent = `${newcard.rank} ${newcard.suit}`;
+    sum.textContent = parseInt(sum.textContent) + parseInt(newcard.value);
+    let cardcount = document.getElementById("cardcount");
+    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+    
+}  
 
 function DealHands() {
 
-    let card = dealCard();
-    let plyrCard1 = document.getElementById('plyrCard1');
-    let plyrSum = document.getElementById('plyrSum');
-    plyrCard1.textContent = `${card.rank} ${card.suit}`;
-    var sum = parseInt(plyrSum.textContent) + parseInt(card.value);
-    plyrSum.textContent = sum;
-
-    card = dealCard();
-    let dlrCard1 = document.getElementById('dlrCard1');
-    let dlrSum = document.getElementById('dlrSum');
-    dlrCard1.textContent = `${card.rank} ${card.suit}`;
-    sum = parseInt(dlrSum.textContent) + parseInt(card.value);
-    dlrSum.textContent = sum;
-
-    card = dealCard();
-    let plyrCard2 = document.getElementById('plyrCard2');
-    plyrSum = document.getElementById('plyrSum');
-    plyrCard2.textContent = `${card.rank} ${card.suit}`;
-    sum = parseInt(plyrSum.textContent) + parseInt(card.value);
-    plyrSum.textContent = sum;
-
-    card = dealCard();
-    let dlrCard2 = document.getElementById('dlrCard2');
-    dlrSum = document.getElementById('dlrSum');
-    dlrCard2.textContent = `${card.rank} ${card.suit}`;
-    sum = parseInt(dlrSum.textContent) + parseInt(card.value);
-    dlrSum.textContent = sum;
+    let newcard = dealCard();
+    placeCard(newcard,'plyrCard1','plyrSum');
+    newcard = dealCard();
+    placeCard(newcard,'dlrCard1','dlrSum');
+    newcard = dealCard();
+    placeCard(newcard,'plyrCard2','plyrSum');
+    newcard = dealCard();
+    placeCard(newcard,'dlrCard2','dlrSum');
 
 }
 
@@ -66,25 +56,10 @@ function hitDealer() {
     var sum = parseInt(dlrSum.textContent);
     sum += parseInt(card.value);
     dlrSum.textContent = sum;
+    let cardcount = document.getElementById("cardcount");
+    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 }
 
-// function hitDealer() {
-//     let dlrCard1 = document.getElementById('dlrCard1');
-//     if (dlrCard1.textContent == 'This is the first card') {
-//         dlrCard1.textContent = 'Ace of Spade';
-//         let dlrSum = document.getElementById('dlrSum');
-//         var sum = parseInt(dlrSum.textContent);
-//         sum += 11;
-//         dlrSum.textContent = sum;
-//     }
-//     else {
-//         dlrCard2.textContent = 'Jack of Spade';
-//         let dlrSum = document.getElementById('dlrSum');
-//         var sum = parseInt(dlrSum.textContent);
-//         sum += 10;
-//         dlrSum.textContent = sum;
-//     }
-// }
 
 function hitMe() {
     let card = dealCard();
@@ -96,6 +71,8 @@ function hitMe() {
     var sum = parseInt(plyrSum.textContent);
     sum += parseInt(card.value);
     plyrSum.textContent = sum;
+    let cardcount = document.getElementById("cardcount");
+    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 }
     
     
