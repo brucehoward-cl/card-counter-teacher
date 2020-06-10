@@ -5,14 +5,14 @@ let divDlr = document.getElementById('dlrDiv');
 const divPlyr = document.getElementById('plyrDiv');
 
 const btnHitMe = document.getElementById('btnhitme');
-const btnHitDlr = document.getElementById('btnhitdlr');
+const btnStay = document.getElementById('btnstay');
 const btnNewGame = document.getElementById('btnnewgame');
-const form = document.getElementById('registrar');
-
+const cbCardCount = document.getElementById('cbCardCount')
 
 btnHitMe.addEventListener("click", hitMe);
-btnHitDlr.addEventListener("click", hitDealer);
+btnStay.addEventListener("click", stay);
 btnNewGame.addEventListener("click", newGame);
+cbCardCount.addEventListener("click", toggleCardCount);
 
 function dealCard() {
     let card = deckOfCards[randomNumber(51)]; 
@@ -46,18 +46,27 @@ function DealHands() {
 
 }
 
-function hitDealer() {
-    let card = dealCard();
-    const label = document.createElement('label');
-    label['className'] = 'extras';
-    label['textContent'] = `${card.rank} ${card.suit}`;
-    divDlr.appendChild(label);
+function stay() {
     let dlrSum = document.getElementById('dlrSum');
     var sum = parseInt(dlrSum.textContent);
-    sum += parseInt(card.value);
-    dlrSum.textContent = sum;
-    let cardcount = document.getElementById("cardcount");
-    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
+    if (sum <= 16) {
+
+        let card = dealCard();
+
+        const label = document.createElement('label');
+        label['className'] = 'extras';
+        label['textContent'] = `${card.rank} ${card.suit}`;
+        divDlr.appendChild(label);
+
+        sum += parseInt(card.value);
+        dlrSum.textContent = sum;
+
+        let cardcount = document.getElementById("cardcount");
+        cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
+
+        stay();
+    }
+    
 }
 
 
@@ -99,3 +108,12 @@ function newGame() {
 }
 
 
+function toggleCardCount() {
+    let cardcount = document.getElementById("cardcount");
+    if (cbCardCount.checked) {
+        cardcount.classList.add('hidecount');
+    } else {
+        cardcount.classList.remove('hidecount');
+    }
+  
+}
