@@ -7,12 +7,13 @@ const divPlyr = document.getElementById('plyrDiv');
 const btnHitMe = document.getElementById('btnhitme');
 const btnStay = document.getElementById('btnstay');
 const btnNewGame = document.getElementById('btnnewgame');
-const cbCardCount = document.getElementById('cbCardCount')
+const cbCardCount = document.getElementById('cbCardCount');
 
 btnHitMe.addEventListener("click", hitMe);
 btnStay.addEventListener("click", stay);
 btnNewGame.addEventListener("click", newGame);
 cbCardCount.addEventListener("click", toggleCardCount);
+
 
 function dealCard() {
     let card = deckOfCards[randomNumber(51)]; 
@@ -47,6 +48,10 @@ function DealHands() {
 }
 
 function stay() {
+    setTimeout(hitDealer, 3000);
+}
+
+function hitDealer() {
     let dlrSum = document.getElementById('dlrSum');
     var sum = parseInt(dlrSum.textContent);
     if (sum <= 16) {
@@ -83,6 +88,8 @@ function hitMe() {
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 }
+
+
     
     
 function newGame() {
