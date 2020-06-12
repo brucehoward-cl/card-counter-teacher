@@ -17,10 +17,18 @@
       <div>
         <h2>Dealer</h2>
         <label id="dlrSum">0</label>
-        <div>
-          <label id="dlrCard1">first card</label>
-          <label id="dlrCard2">second card</label>
+        <div id="dlrCard1" class="card">
+          <div class="top"><span class="dlrCard1rank"></span><span class="dlrCard1suit"></span></div>
+          <span class="dlrCard1suit suit"></span>
+          <div class="bottom"><span class="dlrCard1suit"></span><span class="dlrCard1rank"></span></div>
         </div>
+
+        <div id="dlrCard2" class="card">
+          <div class="top"><span class="dlrCard2rank"></span><span class="dlrCard2suit"></span></div>
+          <span class="dlrCard2suit suit"></span>
+          <div class="bottom"><span class="dlrCard2suit"></span><span class="dlrCard2rank"></span></div>
+        </div>
+
         <div id="dlrDiv">
         </div>
      </div>	
@@ -28,9 +36,16 @@
      <div>
         <h2>Player 1</h2>
         <label id="plyrSum">0</label>
-        <div> 
-          <label id="plyrCard1">first card</label>
-          <label id="plyrCard2">second card</label>
+        <div id="plyrCard1" class="card">
+          <div class="top"><span class="plyrCard1rank"></span><span class="plyrCard1suit"></span></div>
+          <span class="plyrCard1suit suit"></span>
+          <div class="bottom"><span class="plyrCard1suit"></span><span class="plyrCard1rank"></span></div>
+        </div>
+
+        <div id="plyrCard2" class="card">
+          <div class="top"><span class="plyrCard2rank"></span><span class="plyrCard2suit"></span></div>
+          <span class="plyrCard2suit suit"></span>
+          <div class="bottom"><span class="plyrCard2suit"></span><span class="plyrCard2rank"></span></div>
         </div>
         <div id="plyrDiv"> 
         </div>
@@ -48,11 +63,6 @@
         <button id="btnnewgame" class="btn-newgame" type="button" name="button" value="newgame">New Game</button>
       </form>
 
-      <div class="card">
-        <div class="top"><span>K</span><span>&spades;</span></div>
-        <span class="suit">&diam;</span>
-        <div class="bottom"><span>&spades;</span><span>K</span></div>
-      </div>
     </div>
   </div>
 </body>

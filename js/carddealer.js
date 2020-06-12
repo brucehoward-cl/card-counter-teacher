@@ -1,6 +1,3 @@
-// document.addEventListener('DOMContentLoaded', () => {});
-
-
 let divDlr = document.getElementById('dlrDiv');
 const divPlyr = document.getElementById('plyrDiv');
 
@@ -25,13 +22,22 @@ function randomNumber(upper) {
   }
     
 function placeCard(newcard, cardID, sumID) {
-    let card = document.getElementById(cardID);
+    let rankElements = document.getElementsByClassName(`${cardID}rank`);
+    let suitElements = document.getElementsByClassName(`${cardID}suit`);
+    for (let i = 0; i < rankElements.length; i++)
+    {
+        rankElements[i].innerHTML = newcard.rank;
+    }
+    for (let i = 0; i < suitElements.length; i++)
+    {
+        suitElements[i].innerHTML = newcard.suit;
+    }
+
     let sum = document.getElementById(sumID);
-    card.textContent = `${newcard.rank} ${newcard.suit}`;
     sum.textContent = parseInt(sum.textContent) + parseInt(newcard.value);
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-    
+
 }  
 
 function DealHands() {
@@ -51,6 +57,37 @@ function stay() {
     setTimeout(hitDealer, 3000);
 }
 
+function createCardHTML (card) {
+
+    const div = document.createElement('div');
+    const divtop = document.createElement('div');
+    const divbottom = document.createElement('div');
+    const spanrank = document.createElement('span');
+    const spansuit = document.createElement('span');
+    const spanmainsuit = document.createElement('span');
+
+    spanrank.innerHTML = card.rank;
+    spansuit.innerHTML = card.suit;
+    spanmainsuit.innerHTML = card.suit;
+
+    const spanrank2 = spanrank.cloneNode(true);
+    const spansuit2 = spansuit.cloneNode(true);
+
+    div['className'] = 'card';
+    divtop['className'] = 'top';
+    divbottom['className'] = 'bottom';
+    spanmainsuit['className'] = 'suit';
+    div.appendChild(divtop);
+    div.appendChild(spanmainsuit);
+    div.appendChild(divbottom);
+    divtop.appendChild(spanrank);
+    divtop.appendChild(spansuit);
+    divbottom.appendChild(spansuit2);
+    divbottom.appendChild(spanrank2);
+
+    return div;
+}
+
 function hitDealer() {
     let dlrSum = document.getElementById('dlrSum');
     var sum = parseInt(dlrSum.textContent);
@@ -58,10 +95,8 @@ function hitDealer() {
 
         let card = dealCard();
 
-        const label = document.createElement('label');
-        label['className'] = 'extras';
-        label['textContent'] = `${card.rank} ${card.suit}`;
-        divDlr.appendChild(label);
+        let newCardDiv = createCardHTML(card);
+        divDlr.appendChild(newCardDiv);
 
         sum += parseInt(card.value);
         dlrSum.textContent = sum;
@@ -77,10 +112,10 @@ function hitDealer() {
 
 function hitMe() {
     let card = dealCard();
-    const label = document.createElement('label');
-    label['className'] = 'extras';
-    label['textContent'] = `${card.rank} ${card.suit}`;
-    divPlyr.appendChild(label);
+
+    let newCardDiv = createCardHTML(card);
+    divPlyr.appendChild(newCardDiv);
+
     let plyrSum = document.getElementById('plyrSum');
     var sum = parseInt(plyrSum.textContent);
     sum += parseInt(card.value);
@@ -90,7 +125,7 @@ function hitMe() {
 }
 
 
-    
+   
     
 function newGame() {
     let plyrCard1 = document.getElementById('plyrCard1');
