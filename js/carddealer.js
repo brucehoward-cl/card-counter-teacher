@@ -17,9 +17,9 @@ function dealCard() {
     let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
     let card = deckOfCards[cardIndex]; 
 
-    if (cardIndex = 0) { //remove card from beginning of card array
+    if (cardIndex == 0) { //remove card from beginning of card array
         deckOfCards.shift();
-    } else if (cardIndex = deckOfCards.length - 1) {  //remove card from end of card array
+    } else if (cardIndex == (deckOfCards.length - 1)) {  //remove card from end of card array
         deckOfCards.pop();
     }
     else { //remove card from middle of card array
@@ -32,7 +32,8 @@ function dealCard() {
 }
     
 function randomNumber(upper) {
-    return Math.floor( Math.random() * upper ) + 1;
+    // return Math.floor( Math.random() * upper ) + 1;
+    return Math.floor( Math.random() * upper );
   }
     
 // function placeCard(newcard, cardID, sumID) {
