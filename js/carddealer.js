@@ -1,5 +1,5 @@
-let divDlr = document.getElementById('dlrDiv');
-const divPlyr = document.getElementById('plyrDiv');
+let dlrbumpCards = document.getElementById('dlrbumpedCards');
+const plyrbumpCards = document.getElementById('plyrbumpedCards');
 
 const btnHitMe = document.getElementById('btnhitme');
 const btnStay = document.getElementById('btnstay');
@@ -32,29 +32,9 @@ function dealCard() {
 }
     
 function randomNumber(upper) {
-    // return Math.floor( Math.random() * upper ) + 1;
     return Math.floor( Math.random() * upper );
   }
     
-// function placeCard(newcard, cardID, sumID) {
-//     let rankElements = document.getElementsByClassName(`${cardID}rank`);
-//     let suitElements = document.getElementsByClassName(`${cardID}suit`);
-//     for (let i = 0; i < rankElements.length; i++)
-//     {
-//         rankElements[i].innerHTML = newcard.rank;
-//     }
-//     for (let i = 0; i < suitElements.length; i++)
-//     {
-//         suitElements[i].innerHTML = newcard.suit;
-//     }
-
-//     let sum = document.getElementById(sumID);
-//     sum.textContent = parseInt(sum.textContent) + parseInt(newcard.value);
-//     let cardcount = document.getElementById("cardcount");
-//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-
-// }  
-
 function DealHands() {
 
     let divDlrSum = document.getElementById('dlrSum');
@@ -103,8 +83,8 @@ function stay() {
 function createCardHTML (card) {
 
     const div = document.createElement('div');
-    const divtop = document.createElement('div');
-    const divbottom = document.createElement('div');
+    // const divtop = document.createElement('div');
+    // const divbottom = document.createElement('div');
     const spanrank = document.createElement('span');
     const spansuit = document.createElement('span');
     const spanmainsuit = document.createElement('span');
@@ -117,16 +97,20 @@ function createCardHTML (card) {
     const spansuit2 = spansuit.cloneNode(true);
 
     div['className'] = 'card';
-    divtop['className'] = 'top';
-    divbottom['className'] = 'bottom';
+    // divtop['className'] = 'top';
+    // divbottom['className'] = 'bottom';
     spanmainsuit['className'] = 'suit';
-    div.appendChild(divtop);
+    // div.appendChild(divtop);
+    div.appendChild(spanrank);
+    div.appendChild(spansuit);
     div.appendChild(spanmainsuit);
-    div.appendChild(divbottom);
-    divtop.appendChild(spanrank);
-    divtop.appendChild(spansuit);
-    divbottom.appendChild(spansuit2);
-    divbottom.appendChild(spanrank2);
+    div.appendChild(spansuit2);
+    div.appendChild(spanrank2);
+    // div.appendChild(divbottom);
+    // divtop.appendChild(spanrank);
+    // divtop.appendChild(spansuit);
+    // divbottom.appendChild(spansuit2);
+    // divbottom.appendChild(spanrank2);
 
     return div;
 }
@@ -139,7 +123,7 @@ function hitDealer() {
         let card = dealCard();
 
         let newCardDiv = createCardHTML(card);
-        divDlr.appendChild(newCardDiv);
+        dlrbumpCards.appendChild(newCardDiv);
 
         sum += parseInt(card.value);
         dlrSum.textContent = sum;
@@ -157,7 +141,7 @@ function hitMe() {
     let card = dealCard();
 
     let newCardDiv = createCardHTML(card);
-    divPlyr.appendChild(newCardDiv);
+    plyrbumpCards.appendChild(newCardDiv);
 
     let plyrSum = document.getElementById('plyrSum');
     var sum = parseInt(plyrSum.textContent);
@@ -183,11 +167,11 @@ function newGame() {
     dlrCard2.innerHTML = '';
     plyrSum.textContent = '0';
     dlrSum.textContent = '0';
-    while (divDlr.firstChild) {
-        divDlr.removeChild(divDlr.lastChild);
+    while (dlrbumpCards.firstChild) {
+        dlrbumpCards.removeChild(dlrbumpCards.lastChild);
     }
-    while (divPlyr.firstChild) {
-        divPlyr.removeChild(divPlyr.lastChild);
+    while (plyrbumpCards.firstChild) {
+        plyrbumpCards.removeChild(plyrbumpCards.lastChild);
     }
     DealHands();
 }
