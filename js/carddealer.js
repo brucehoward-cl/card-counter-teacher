@@ -13,6 +13,10 @@ cbCardCount.addEventListener("click", toggleCardCount);
 
 let numOfCardsInDeck = document.getElementById("numOfCardsLeft")
 
+function randomNumber(upper) {
+    return Math.floor( Math.random() * upper );
+  }
+    
 function dealCard() {
     let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
     let card = deckOfCards[cardIndex]; 
@@ -30,17 +34,40 @@ function dealCard() {
     numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
     return card;
 }
-    
-function randomNumber(upper) {
-    return Math.floor( Math.random() * upper );
-  }
-    
-function DealHands() {
 
-    let divDlrSum = document.getElementById('dlrSum');
-    var dlrSum = parseInt(divDlrSum.textContent);
-    let divPlyrSum = document.getElementById('plyrSum');
-    var plyrSum = parseInt(divPlyrSum.textContent);
+function createCardHTML (card) {
+
+    const div = document.createElement('div');
+    const spanrank = document.createElement('span');
+    const spansuit = document.createElement('span');
+    const spanmainsuit = document.createElement('span');
+
+    spanrank.innerHTML = card.rank;
+    spansuit.innerHTML = card.suit;
+    spanmainsuit.innerHTML = card.suit;
+
+    const spanrank2 = spanrank.cloneNode(true);
+    const spansuit2 = spansuit.cloneNode(true);
+
+    div['className'] = 'card';
+    div.appendChild(spanrank);
+    div.appendChild(spansuit);
+    div.appendChild(spanmainsuit);
+    div.appendChild(spansuit2);
+    div.appendChild(spanrank2);
+
+    return div;
+}
+
+    
+function DealInitialHands() {
+
+    // var dlrSum = parseInt(divDlrSum.textContent);
+    // var plyrSum = parseInt(divPlyrSum.textContent);
+
+    let dlrSum = 0;
+    let plyrSum = 0;
+
     let cardcount = document.getElementById("cardcount");
 
     let newcard = dealCard();
@@ -71,39 +98,44 @@ function DealHands() {
     divDlrCard2.appendChild(newCardDiv);
     dlrSum += parseInt(newcard.value);
 
+    let divDlrSum = document.getElementById('dlrSum');
     divDlrSum.textContent = dlrSum;
+    let divPlyrSum = document.getElementById('plyrSum');
     divPlyrSum.textContent = plyrSum;
 
+    if  (plyrSum == 21) {
+        btnHitMe.disabled = true;
+    }
+
 }
+
+function hitMe() {
+    let card = dealCard();
+
+    let newCardDiv = createCardHTML(card);
+    plyrbumpCards.appendChild(newCardDiv);
+
+    let cardcount = document.getElementById("cardcount");
+    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
+
+
+    let sum = getSum('plyrSum', 'plyrContainer');
+    sum += parseInt(card.value);
+    let plyrSum = document.getElementById('plyrSum');
+    plyrSum.textContent = sum;
+
+    // if (sum > 21) { 
+    //     btnHitMe.disabled = true;
+    // }
+    // else if (sum == 21) {
+    //     btnHitMe.disabled = true;
+    // }
+}
+
 
 function stay() {
     btnHitMe.disabled = true;
     hitDealer();
-    determineWinner();
-}
-
-function createCardHTML (card) {
-
-    const div = document.createElement('div');
-    const spanrank = document.createElement('span');
-    const spansuit = document.createElement('span');
-    const spanmainsuit = document.createElement('span');
-
-    spanrank.innerHTML = card.rank;
-    spansuit.innerHTML = card.suit;
-    spanmainsuit.innerHTML = card.suit;
-
-    const spanrank2 = spanrank.cloneNode(true);
-    const spansuit2 = spansuit.cloneNode(true);
-
-    div['className'] = 'card';
-    div.appendChild(spanrank);
-    div.appendChild(spansuit);
-    div.appendChild(spanmainsuit);
-    div.appendChild(spansuit2);
-    div.appendChild(spanrank2);
-
-    return div;
 }
 
 function hitDealer() {
@@ -122,37 +154,15 @@ function hitDealer() {
         let cardcount = document.getElementById("cardcount");
         cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
-        // setTimeout(hitDealer, 3000);
-        hitDealer();
+        setTimeout(hitDealer, 3000);
 
+    } 
+    else {
+        determineWinner(); /* I had to stick this here because the setTimeout was having an adverse affect on how the recursive call was being made */
     }
+        
 }
 
-
-function hitMe() {
-    let card = dealCard();
-
-    let newCardDiv = createCardHTML(card);
-    plyrbumpCards.appendChild(newCardDiv);
-
-    let cardcount = document.getElementById("cardcount");
-    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
-
-    let plyrSum = document.getElementById('plyrSum');
-    var sum = parseInt(plyrSum.textContent);
-    sum += parseInt(card.value);
-    plyrSum.textContent = sum;
-
-    if (sum > 21) {
-        btnHitMe.disabled = true;
-    }
-    else if (sum == 21) {
-        btnHitMe.disabled = true;
-    }
-}
-
-
-   
     
 function newGame() {
     let plyrCard1 = document.getElementById('plyrCard1');
@@ -180,9 +190,78 @@ function newGame() {
     while (plyrbumpCards.firstChild) {
         plyrbumpCards.removeChild(plyrbumpCards.lastChild);
     }
-    DealHands();
+    DealInitialHands();
 }
 
+
+function howManyAces(container) {
+    
+    let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
+    let spanArray = Array.from(spanCollection);
+    let count = spanArray.filter(x => x.textContent == "A").length / 2;
+    return count;
+
+}
+
+// By default Aces are counted as 11. Some adjustment may need to take place.
+function getSum(sumlabel, container) {
+
+    let divSum = document.getElementById(sumlabel);
+    sum = parseInt(divSum.textContent);
+
+    if (sum > 21) {
+        let nbrOfAces = howManyAces(container);
+        while (nbrOfAces > 0 && sum > 21) {
+            sum -= 10;
+        }
+    }
+
+    return sum;
+}
+
+
+function determineWinner() {
+
+    // let divDlrSum = document.getElementById('dlrSum');
+    // var dlrSum = parseInt(divDlrSum.textContent);
+    // let divPlyrSum = document.getElementById('plyrSum');
+    // var plyrSum = parseInt(divPlyrSum.textContent);
+
+    let dlrSum = getSum('dlrSum', 'dlrContainer');
+    let plyrSum = getSum('plyrSum', 'plyrContainer');
+
+    let lblPlyrResult = document.getElementById('plyrGameResult');
+
+    if (plyrSum == 21) {
+        if (dlrSum == 21) {
+            lblPlyrResult.textContent = "IT'S A PUSH";
+        }
+        else {
+            lblPlyrResult.textContent = "YOU WIN!";
+        }
+    }
+    else if (plyrSum > 21) {
+        lblPlyrResult.textContent = "YOU LOSE!";
+    }
+    else if (plyrSum < 21) {
+        if (dlrSum > 21) {
+            lblPlyrResult.textContent = "YOU WIN!";
+        }
+        else if (dlrSum == 21) {
+            lblPlyrResult.textContent = "YOU LOSE!";
+        }
+        else if (plyrSum > dlrSum) {
+            lblPlyrResult.textContent = "YOU WIN!";
+        }
+        else if (plyrSum == dlrSum) {
+            lblPlyrResult.textContent = "IT'S A PUSH";
+        }
+        else if (plyrSum < dlrSum) {
+            lblPlyrResult.textContent = "YOU LOSE!";
+        }
+    }
+
+}
 
 function toggleCardCount() {
     let cardcount = document.getElementById("cardcount");
@@ -194,50 +273,3 @@ function toggleCardCount() {
   
 }
 
-
-function determineWinner() {
-    let divDlrSum = document.getElementById('dlrSum');
-    var dlrSum = parseInt(divDlrSum.textContent);
-    let divPlyrSum = document.getElementById('plyrSum');
-    var plyrSum = parseInt(divPlyrSum.textContent);
-
-    let lblPlyrResult = document.getElementById('plyrGameResult');
-
-
-    if (plyrSum == 21) {
-        if (dlrSum == 21) {
-            lblPlyrResult.textContent = "IT'S A PUSH";
-            /* its a push */
-        }
-        else {
-            /* player wins */
-            lblPlyrResult.textContent = "YOU WIN!";
-        }
-    }
-    else if (plyrSum < 21) {
-        if (dlrSum > 21) {
-            /* player wins */
-            lblPlyrResult.textContent = "YOU WIN!";
-        }
-        else if (dlrSum == 21) {
-            /* player loses */
-            lblPlyrResult.textContent = "YOU LOSE!";
-        }
-        else if (plyrSum > dlrSum) {
-            /* player wins */
-            lblPlyrResult.textContent = "YOU WIN!";
-        }
-        else if (plyrSum == dlrSum) {
-            /* its a push */
-            lblPlyrResult.textContent = "IT'S A PUSH";
-        }
-        else if (plyrSum < dlrSum) {
-            lblPlyrResult.textContent = "YOU LOSE!";
-        }
-    }
-    else if (plyrSum > 21) {
-        /* player loses */
-        lblPlyrResult.textContent = "YOU LOSE!";
-    }
-
-}
