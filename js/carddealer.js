@@ -11,7 +11,9 @@ btnStay.addEventListener("click", stay);
 btnNewGame.addEventListener("click", newGame);
 cbCardCount.addEventListener("click", toggleCardCount);
 
-let numOfCardsInDeck = document.getElementById("numOfCardsLeft")
+let numOfCardsInDeck = document.getElementById("numOfCardsLeft");
+let deckOfCards = [];
+
 
 function randomNumber(upper) {
     return Math.floor( Math.random() * upper );
@@ -20,26 +22,30 @@ function randomNumber(upper) {
 function dealCard() {
     if (deckOfCards.length == 0) {
         if (confirm("There are no cards left in the deck.\nDo you want to continue with a fresh deck?")) {
-            console.log("yes, new deck");
+            deckOfCards = shuffleDeck();
+            numOfCardsInDeck.textContent = 52;
         } else {
             console.log("No, I'm done");
+            throw 'End of deck';
         }
     }
-    let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
-    let card = deckOfCards[cardIndex]; 
+    else {
+        let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
+        let card = deckOfCards[cardIndex]; 
 
-    if (cardIndex == 0) { //remove card from beginning of card array
-        deckOfCards.shift();
-    } else if (cardIndex == (deckOfCards.length - 1)) {  //remove card from end of card array
-        deckOfCards.pop();
+        if (cardIndex == 0) { //remove card from beginning of card array
+            deckOfCards.shift();
+        } else if (cardIndex == (deckOfCards.length - 1)) {  //remove card from end of card array
+            deckOfCards.pop();
+        }
+        else { //remove card from middle of card array
+            var tempDeck1 = deckOfCards.slice(0,cardIndex); //doesn't include cardIndex
+            var tempDeck2 = deckOfCards.slice(cardIndex + 1, deckOfCards.length);
+            deckOfCards = tempDeck1.concat(tempDeck2);
+        }
+        numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
+        return card;
     }
-    else { //remove card from middle of card array
-        var tempDeck1 = deckOfCards.slice(0,cardIndex); //doesn't include cardIndex
-        var tempDeck2 = deckOfCards.slice(cardIndex + 1, deckOfCards.length);
-        deckOfCards = tempDeck1.concat(tempDeck2);
-    }
-    numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
-    return card;
 }
 
 function createCardHTML (card) {
@@ -67,11 +73,12 @@ function createCardHTML (card) {
     return div;
 }
 
+function LoadPage() {
+    deckOfCards = shuffleDeck();
+    DealHands();
+}
     
-function DealInitialHands() {
-
-    // var dlrSum = parseInt(divDlrSum.textContent);
-    // var plyrSum = parseInt(divPlyrSum.textContent);
+function DealHands() {
 
     let dlrSum = 0;
     let plyrSum = 0;
@@ -129,11 +136,6 @@ function hitMe() {
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
-    // let sum = getSum('plyrSum', 'plyrContainer');
-    // sum += parseInt(card.value);
-    // let plyrSum = document.getElementById('plyrSum');
-    // plyrSum.textContent = sum;
-
     // if (sum > 21) { 
     //     btnHitMe.disabled = true;
     // }
@@ -150,7 +152,6 @@ function stay() {
 
 function hitDealer() {
 
-    // let sum = getSum('dlrSum', 'dlrContainer');
     let dlrSum = document.getElementById('dlrSum');
     var sum = parseInt(dlrSum.textContent);
 
@@ -161,7 +162,6 @@ function hitDealer() {
         let newCardDiv = createCardHTML(card);
         dlrbumpCards.appendChild(newCardDiv);
 
-        // sum += parseInt(card.value);
         incrementTotal('dlrContainer', 'dlrSum');
 
         let cardcount = document.getElementById("cardcount");
@@ -203,35 +203,9 @@ function newGame() {
     while (plyrbumpCards.firstChild) {
         plyrbumpCards.removeChild(plyrbumpCards.lastChild);
     }
-    DealInitialHands();
+    DealHands();
 }
 
-
-// function howManyAces(container) {
-    
-//     let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
-//     let spanArray = Array.from(spanCollection);
-//     let count = spanArray.filter(x => x.textContent == "A").length / 2;
-//     return count;
-
-// }
-
-// By default Aces are counted as 11. 
-// A hand's value will be maximized without going over 21 if possible.
-// function getSum(sumlabel, container) {
-
-//     let divSum = document.getElementById(sumlabel);
-//     sum = parseInt(divSum.textContent);
-
-//     if (sum > 21) {
-//         let nbrOfAces = howManyAces(container);
-//         while (nbrOfAces > 0 && sum > 21) {
-//             sum -= 10;
-//         }
-//     }
-
-//     return sum;
-// }
 
 function incrementTotal(container, sumlabel) {
 
@@ -268,9 +242,6 @@ function determineWinner() {
     var dlrSum = parseInt(divDlrSum.textContent);
     let divPlyrSum = document.getElementById('plyrSum');
     var plyrSum = parseInt(divPlyrSum.textContent);
-
-    // let dlrSum = getSum('dlrSum', 'dlrContainer');
-    // let plyrSum = getSum('plyrSum', 'plyrContainer');
 
     let lblPlyrResult = document.getElementById('plyrGameResult');
 
