@@ -18,6 +18,13 @@ function randomNumber(upper) {
   }
     
 function dealCard() {
+    if (deckOfCards.length == 0) {
+        if (confirm("There are no cards left in the deck.\nDo you want to continue with a fresh deck?")) {
+            console.log("yes, new deck");
+        } else {
+            console.log("No, I'm done");
+        }
+    }
     let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
     let card = deckOfCards[cardIndex]; 
 
@@ -43,6 +50,7 @@ function createCardHTML (card) {
     const spanmainsuit = document.createElement('span');
 
     spanrank.innerHTML = card.rank;
+    spanrank.setAttribute('data-value', card.value);  //This custom attribute will not show up in the HTML but it is accessible by javascript
     spansuit.innerHTML = card.suit;
     spanmainsuit.innerHTML = card.suit;
 
@@ -98,12 +106,13 @@ function DealInitialHands() {
     divDlrCard2.appendChild(newCardDiv);
     dlrSum += parseInt(newcard.value);
 
+
     let divDlrSum = document.getElementById('dlrSum');
     divDlrSum.textContent = dlrSum;
     let divPlyrSum = document.getElementById('plyrSum');
     divPlyrSum.textContent = plyrSum;
 
-    if  (plyrSum == 21) {
+   if  (plyrSum == 21) {
         btnHitMe.disabled = true;
     }
 
@@ -115,14 +124,15 @@ function hitMe() {
     let newCardDiv = createCardHTML(card);
     plyrbumpCards.appendChild(newCardDiv);
 
+    incrementTotal('plyrContainer', 'plyrSum');
+
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
-
-    let sum = getSum('plyrSum', 'plyrContainer');
-    sum += parseInt(card.value);
-    let plyrSum = document.getElementById('plyrSum');
-    plyrSum.textContent = sum;
+    // let sum = getSum('plyrSum', 'plyrContainer');
+    // sum += parseInt(card.value);
+    // let plyrSum = document.getElementById('plyrSum');
+    // plyrSum.textContent = sum;
 
     // if (sum > 21) { 
     //     btnHitMe.disabled = true;
@@ -139,8 +149,11 @@ function stay() {
 }
 
 function hitDealer() {
+
+    // let sum = getSum('dlrSum', 'dlrContainer');
     let dlrSum = document.getElementById('dlrSum');
     var sum = parseInt(dlrSum.textContent);
+
     if (sum <= 16) {
 
         let card = dealCard();
@@ -148,8 +161,8 @@ function hitDealer() {
         let newCardDiv = createCardHTML(card);
         dlrbumpCards.appendChild(newCardDiv);
 
-        sum += parseInt(card.value);
-        dlrSum.textContent = sum;
+        // sum += parseInt(card.value);
+        incrementTotal('dlrContainer', 'dlrSum');
 
         let cardcount = document.getElementById("cardcount");
         cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
@@ -158,7 +171,7 @@ function hitDealer() {
 
     } 
     else {
-        determineWinner(); /* I had to stick this here because the setTimeout was having an adverse affect on how the recursive call was being made */
+        determineWinner(); /* I had to stick this here instead of completely outside of this function, because the setTimeout was having an adverse affect on how the recursive call was being made */
     }
         
 }
@@ -194,41 +207,70 @@ function newGame() {
 }
 
 
-function howManyAces(container) {
+// function howManyAces(container) {
     
-    let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
-    let spanArray = Array.from(spanCollection);
-    let count = spanArray.filter(x => x.textContent == "A").length / 2;
-    return count;
+//     let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
+//     let spanArray = Array.from(spanCollection);
+//     let count = spanArray.filter(x => x.textContent == "A").length / 2;
+//     return count;
 
-}
+// }
 
-// By default Aces are counted as 11. Some adjustment may need to take place.
-function getSum(sumlabel, container) {
+// By default Aces are counted as 11. 
+// A hand's value will be maximized without going over 21 if possible.
+// function getSum(sumlabel, container) {
+
+//     let divSum = document.getElementById(sumlabel);
+//     sum = parseInt(divSum.textContent);
+
+//     if (sum > 21) {
+//         let nbrOfAces = howManyAces(container);
+//         while (nbrOfAces > 0 && sum > 21) {
+//             sum -= 10;
+//         }
+//     }
+
+//     return sum;
+// }
+
+function incrementTotal(container, sumlabel) {
 
     let divSum = document.getElementById(sumlabel);
-    sum = parseInt(divSum.textContent);
 
-    if (sum > 21) {
-        let nbrOfAces = howManyAces(container);
-        while (nbrOfAces > 0 && sum > 21) {
-            sum -= 10;
+    let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
+    let spanArray = Array.from(spanCollection);
+    let nbrOfAces = spanArray.filter(x => x.textContent == "A").length / 2;
+
+    let sum = 0;
+    for (i = 0; i < spanArray.length; i++) {
+        if (spanArray[i].hasAttribute("data-value")){
+            sum += parseInt(spanArray[i].getAttribute("data-value"));  // This is the custom attribute on the rank elements
         }
     }
 
-    return sum;
+    sum = sum / 2; // up to this point every card value has been added twice because the rank appears twice on each card;
+
+    if (sum > 21) {
+        while (nbrOfAces > 0 && sum > 21) {
+            sum -= 10;
+            nbrOfAces--;
+        }
+    }
+
+    divSum.textContent = sum;
+
 }
 
 
 function determineWinner() {
 
-    // let divDlrSum = document.getElementById('dlrSum');
-    // var dlrSum = parseInt(divDlrSum.textContent);
-    // let divPlyrSum = document.getElementById('plyrSum');
-    // var plyrSum = parseInt(divPlyrSum.textContent);
+    let divDlrSum = document.getElementById('dlrSum');
+    var dlrSum = parseInt(divDlrSum.textContent);
+    let divPlyrSum = document.getElementById('plyrSum');
+    var plyrSum = parseInt(divPlyrSum.textContent);
 
-    let dlrSum = getSum('dlrSum', 'dlrContainer');
-    let plyrSum = getSum('plyrSum', 'plyrContainer');
+    // let dlrSum = getSum('dlrSum', 'dlrContainer');
+    // let plyrSum = getSum('plyrSum', 'plyrContainer');
 
     let lblPlyrResult = document.getElementById('plyrGameResult');
 
