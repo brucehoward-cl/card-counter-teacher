@@ -220,7 +220,7 @@ function newGame() {
     while (plyrbumpCards.firstChild) {
         plyrbumpCards.removeChild(plyrbumpCards.lastChild);
     }
-    DealHands();
+    dealInitialHands();
 }
 
 
