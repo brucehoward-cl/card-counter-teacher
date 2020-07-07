@@ -1,5 +1,6 @@
 let dlrbumpCards = document.getElementById('dlrbumpedCards');
-const plyrbumpCards = document.getElementById('plyrbumpedCards');
+let plyrbumpCards = document.getElementById('plyrbumpedCards');
+let players = ["plyr","dlr"];
 
 const btnHitMe = document.getElementById('btnhitme');
 const btnStay = document.getElementById('btnstay');
@@ -44,8 +45,6 @@ function dealCard() {
     }
     numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
     return card;
-// else {
-//     }
 }
 
 function createCardHTML (card) {
@@ -75,57 +74,73 @@ function createCardHTML (card) {
 
 function LoadPage() {
     deckOfCards = shuffleDeck();
-    DealHands();
+    // DealHands();
+    dealInitialHands();
 }
     
-function DealHands() {
+// function DealHands() {
 
+//     let cardcount = document.getElementById("cardcount");
+
+//     let newcard = dealCard();
+//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+//     let newCardDiv = createCardHTML(newcard);
+//     placeCard("plyrCard1", newCardDiv);
+//     incrementTotal('plyrContainer', 'plyrSum');
+
+//     newcard = dealCard();
+//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+//     newCardDiv = createCardHTML(newcard);
+//     placeCard("dlrCard1", newCardDiv);
+//     incrementTotal('dlrContainer', 'dlrSum');
+
+//     newcard = dealCard();
+//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+//     newCardDiv = createCardHTML(newcard);
+//     placeCard("plyrCard2", newCardDiv);
+//     incrementTotal('plyrContainer', 'plyrSum');
+
+//     newcard = dealCard();
+//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+//     newCardDiv = createCardHTML(newcard);
+//     placeCard("dlrCard2", newCardDiv);
+//     incrementTotal('dlrContainer', 'dlrSum');
+
+//     let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
+
+//    if  (plyrSum == 21) {
+//         btnHitMe.disabled = true;
+//     }
+
+// }
+
+function dealInitialHands() {
+    
     let cardcount = document.getElementById("cardcount");
 
-    let newcard = dealCard();
-    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-    let newCardDiv = createCardHTML(newcard);
-    let divPlyrCard1 = document.getElementById("plyrCard1");
-    divPlyrCard1.appendChild(newCardDiv);
-    // plyrSum += parseInt(newcard.value);
-    incrementTotal('plyrContainer', 'plyrSum');
-
-    newcard = dealCard();
-    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-    newCardDiv = createCardHTML(newcard);
-    let divDlrCard1 = document.getElementById("dlrCard1");
-    divDlrCard1.appendChild(newCardDiv);
-    // dlrSum += parseInt(newcard.value);
-    incrementTotal('dlrContainer', 'dlrSum');
-
-
-    newcard = dealCard();
-    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-    newCardDiv = createCardHTML(newcard);
-    let divPlyrCard2 = document.getElementById("plyrCard2");
-    divPlyrCard2.appendChild(newCardDiv);
-    // plyrSum += parseInt(newcard.value);
-    incrementTotal('plyrContainer', 'plyrSum');
-
-    newcard = dealCard();
-    cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-    newCardDiv = createCardHTML(newcard);
-    let divDlrCard2 = document.getElementById("dlrCard2");
-    divDlrCard2.appendChild(newCardDiv);
-    // dlrSum += parseInt(newcard.value);
-    incrementTotal('dlrContainer', 'dlrSum');
-
-
-    // let divDlrSum = document.getElementById('dlrSum');
-    // divDlrSum.textContent = dlrSum;
+    for (let i = 1; i <= 2; i++) {
+        players.forEach(player => {
+            newcard = dealCard();
+            cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+            newCardDiv = createCardHTML(newcard);
+            placeCard(`${player}Card${i}`, newCardDiv);
+            incrementTotal(`${player}Container`, `${player}Sum`);
+                });
+    }
     let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
-    // divPlyrSum.textContent = plyrSum;
 
-   if  (plyrSum == 21) {
+    if  (plyrSum == 21) {
         btnHitMe.disabled = true;
     }
 
 }
+
+
+function placeCard (player, card) {
+    let divCard = document.getElementById(player);
+    divCard.appendChild(card);
+}
+
 
 function hitMe() {
     let card = dealCard();
