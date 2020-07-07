@@ -1,3 +1,29 @@
+body {
+    margin-left: 3em;
+}
+
+header,
+nav, 
+nav ul {
+    display: flex;
+    flex-direction: column;
+}
+
+nav a {
+    display: block;
+    /* color: #787e83; */
+    font-size: 1.125em;
+    font-weight: 300;
+    text-align: center;
+    padding: .4em;
+    border-bottom: 1px solid #ebecec;
+  }
+
+nav li {
+    border: solid 1px gray;
+    border-radius: .4em;
+}
+
 label {
     margin-right: 1.5em;
 }
@@ -8,23 +34,41 @@ label {
     margin-bottom: .5em;
 }
 
-#registrar {
+#playControls {
     margin-top: 2em;
 }
 
-body {
-    margin-left: 3em;
+.dlrContainer,
+.plyrContainer
+{
+    display: flex;
+    flex-wrap: wrap;
 }
 
+#dlrbumpedCards,
+#plyrbumpedCards
+{
+    margin-left: 2em;
+}
+
+.dealtCards {
+    display: flex;
+}
+
+#cardcount {
+    margin-left: .5em;
+    margin-right: 2em;
+}
 .hide {
     /* transition: 0.4s; */
     visibility: hidden;
 }
 
-
 /*   For formatting the playing card  BEGIN  */
 .card {
     display: inline-flex;
+    background-color: whitesmoke;
+    color: black;
     border: solid 2px red;
     border-radius: .4rem;
     height:  10em;
@@ -35,47 +79,87 @@ body {
 
 div.card span:nth-child(-n+2){  
     align-self: flex-start;
-    margin-left: .15em;
+    margin-left: .15rem;
     font-weight: bold;
 }
 
 div.card span:nth-child(3){
     align-self: center;
-    font-size: 3.25em;
+    font-size: 3.25rem;
 }
 
 div.card span:nth-child(1n+4) {
     align-self: flex-end;
-    margin-right: .15em;
+    margin-right: .15rem;
     font-weight: bold;
 }
 
 /* Doesn't work! */
-span[textContent*="&hearts;"] {
+span[textContent="♥"] {
     color: red;
-    background-color: red;
+}
+/* Doesn't work either!!*/
+span[textContent="&hearts;"] {
+    color: red;
 }
 
 /*   For formatting the playing card  END    */
 
-.dlrContainer {
-    display: flex;
-    flex-wrap: wrap;
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media (min-width: 769px) {
+    nav ul {
+        flex-direction: row;
+    }
+
+    header {
+        height: 300px;
+        flex-direction: column;
+    } 
+    nav {
+        margin-top: 3em;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    nav a {
+        border-bottom-color: transparent;
+    }
+           
+    .table {
+        width: 80%;
+        background-color: darkgreen;
+        color: rgba(194, 146, 24, 0.986);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 10%;
+    } 
+    
+    /* .dealer {
+        align-self: center;
+    } */
+      
 }
 
-#dlrbumpedCards {
-    margin-left: 2em;
-}
+@media (min-width: 1025px) {
+    nav ul li {
+        flex-direction: row;
+    }
 
-.plyrContainer {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#plyrbumpedCards {
-    margin-left: 2em;
-}
-
-.dealtCards {
-    display: flex;
+    .table {
+        width: 80%;
+        background-color: darkgreen;
+        color: rgb(250, 181, 6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 15rem;
+    } 
+    
+    /* .dealer {
+        align-self: center;
+    } */
+      
+    
 }

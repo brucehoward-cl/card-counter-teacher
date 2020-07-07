@@ -29,23 +29,23 @@ function dealCard() {
             throw 'End of deck';
         }
     }
-    else {
-        let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
-        let card = deckOfCards[cardIndex]; 
+    let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
+    let card = deckOfCards[cardIndex]; 
 
-        if (cardIndex == 0) { //remove card from beginning of card array
-            deckOfCards.shift();
-        } else if (cardIndex == (deckOfCards.length - 1)) {  //remove card from end of card array
-            deckOfCards.pop();
-        }
-        else { //remove card from middle of card array
-            var tempDeck1 = deckOfCards.slice(0,cardIndex); //doesn't include cardIndex
-            var tempDeck2 = deckOfCards.slice(cardIndex + 1, deckOfCards.length);
-            deckOfCards = tempDeck1.concat(tempDeck2);
-        }
-        numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
-        return card;
+    if (cardIndex == 0) { //remove card from beginning of card array
+        deckOfCards.shift();
+    } else if (cardIndex == (deckOfCards.length - 1)) {  //remove card from end of card array
+        deckOfCards.pop();
     }
+    else { //remove card from middle of card array
+        var tempDeck1 = deckOfCards.slice(0,cardIndex); //doesn't include cardIndex
+        var tempDeck2 = deckOfCards.slice(cardIndex + 1, deckOfCards.length);
+        deckOfCards = tempDeck1.concat(tempDeck2);
+    }
+    numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
+    return card;
+// else {
+//     }
 }
 
 function createCardHTML (card) {
@@ -80,9 +80,6 @@ function LoadPage() {
     
 function DealHands() {
 
-    let dlrSum = 0;
-    let plyrSum = 0;
-
     let cardcount = document.getElementById("cardcount");
 
     let newcard = dealCard();
@@ -90,34 +87,39 @@ function DealHands() {
     let newCardDiv = createCardHTML(newcard);
     let divPlyrCard1 = document.getElementById("plyrCard1");
     divPlyrCard1.appendChild(newCardDiv);
-    plyrSum += parseInt(newcard.value);
+    // plyrSum += parseInt(newcard.value);
+    incrementTotal('plyrContainer', 'plyrSum');
 
     newcard = dealCard();
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
     newCardDiv = createCardHTML(newcard);
     let divDlrCard1 = document.getElementById("dlrCard1");
     divDlrCard1.appendChild(newCardDiv);
-    dlrSum += parseInt(newcard.value);
+    // dlrSum += parseInt(newcard.value);
+    incrementTotal('dlrContainer', 'dlrSum');
+
 
     newcard = dealCard();
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
     newCardDiv = createCardHTML(newcard);
     let divPlyrCard2 = document.getElementById("plyrCard2");
     divPlyrCard2.appendChild(newCardDiv);
-    plyrSum += parseInt(newcard.value);
+    // plyrSum += parseInt(newcard.value);
+    incrementTotal('plyrContainer', 'plyrSum');
 
     newcard = dealCard();
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
     newCardDiv = createCardHTML(newcard);
     let divDlrCard2 = document.getElementById("dlrCard2");
     divDlrCard2.appendChild(newCardDiv);
-    dlrSum += parseInt(newcard.value);
+    // dlrSum += parseInt(newcard.value);
+    incrementTotal('dlrContainer', 'dlrSum');
 
 
-    let divDlrSum = document.getElementById('dlrSum');
-    divDlrSum.textContent = dlrSum;
-    let divPlyrSum = document.getElementById('plyrSum');
-    divPlyrSum.textContent = plyrSum;
+    // let divDlrSum = document.getElementById('dlrSum');
+    // divDlrSum.textContent = dlrSum;
+    let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
+    // divPlyrSum.textContent = plyrSum;
 
    if  (plyrSum == 21) {
         btnHitMe.disabled = true;
