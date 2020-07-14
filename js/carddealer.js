@@ -59,8 +59,8 @@ function createCardHTML (card) {
     spansuit.innerHTML = card.suit;
     spanmainsuit.innerHTML = card.suit;
     if (card.suit == '&hearts;' || card.suit == '&diam;') {
-        spansuit.style.color = 'red';
-        spanmainsuit.style.color = 'red';
+        spansuit.style.color = '#C3073F';
+        spanmainsuit.style.color = '#C3073F';
     }
 
     const spanrank2 = spanrank.cloneNode(true);

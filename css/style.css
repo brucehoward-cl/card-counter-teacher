@@ -1,3 +1,6 @@
+body {
+    background-color: #EAE7DC;
+}
 header,
 nav, 
 nav ul {
@@ -18,20 +21,32 @@ nav a {
 nav li {
     border: solid 1px gray;
     border-radius: .4em;
+    background-color: #D8C3A5;
 }
 
-/* label {
-    margin-right: 1.5em;
-} */
+.center {
+    margin: auto;
+    width: 50%;
+}
 
 #plyrGameResult {
-    text-align: center;
+    font-size: 2rem;
+    color: #F13C20;
+    width: 30%;
+    margin: auto;
+}
+#btnnewgame {
+    width: 10rem;
+    /* color: #8D8741; */
+    color: darkred;
+    font-weight: bold;
+    background-color: #DAAD86;
+    padding: .5rem 0;
 }
 
 #dlrSum,
 #plyrSum {
-    display: block;
-    margin-bottom: .5em;
+    font-weight: bold;
 }
 
 .dlrContainer,
@@ -60,25 +75,47 @@ nav li {
     visibility: hidden;
 }
 
-#playControls {
-    margin-top: 2em;
-}
 
 .table {
+    display: flex;
     border: solid 2px black;
+    width: 100%;
+    background-color: #8D8741;
+    /* color: rgba(194, 146, 24, 0.986); */
+    color: #FBEEC1;
+    flex-direction: column;
+    align-items: center;
+}
+.table button {
+    width: 10rem;
+    color: #83677B;
+    font-weight: bold;
+    background-color: #ADADAD;
+    padding: .5rem 0;
+}
+.dealer {
+    margin: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+}
+.players {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 /*   For formatting the playing card  BEGIN  */
 .card {
     display: inline-flex;
     background-color: whitesmoke;
-    color: black;
-    border: solid 2px red;
+    color: #1A1A1D;
+    border: solid 2px #FC4445;
     border-radius: .4rem;
-    height:  10em;
-    width: 5em;
+    height:  10rem;
+    width: 5rem;
     flex-direction: column;
     justify-content: space-between;
+    margin: .5rem 0 .5rem 0;
 }
 
 div.card span:nth-child(-n+2){  
@@ -112,7 +149,7 @@ span[textContent="&hearts;"] {
 /* --------------------------
   Media Queries
 --------------------------- */
-@media (min-width: 769px) {
+@media screen and (min-width: 769px) {
     header {
         height: 300px;
         flex-direction: column;
@@ -130,38 +167,22 @@ span[textContent="&hearts;"] {
            
     .table {
         width: 80%;
-        background-color: darkgreen;
-        color: rgba(194, 146, 24, 0.986);
-        display: flex;
-        flex-direction: column;
         align-items: center;
         border-radius: 10%;
     } 
-    
-    /* .dealer {
-        align-self: center;
-    } */
-      
+          
 }
 
-@media (min-width: 1025px) {
+@media screen and (min-width: 1025px) {
     nav ul li {
         flex-direction: row;
     }
 
     .table {
         width: 80%;
-        background-color: darkgreen;
-        color: rgb(250, 181, 6);
-        display: flex;
-        flex-direction: column;
         align-items: center;
         border-radius: 15rem;
     } 
     
-    /* .dealer {
-        align-self: center;
-    } */
-      
-    
+              
 }
