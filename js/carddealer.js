@@ -55,14 +55,19 @@ function createCardHTML (card) {
     const spanmainsuit = document.createElement('span');
 
     spanrank.innerHTML = card.rank;
-    spanrank.setAttribute('data-value', card.value);  //This custom attribute will not show up in the HTML but it is accessible by javascript
+    spanrank.setAttribute('data-value', card.value);  //custom attribute 
     spansuit.innerHTML = card.suit;
     spanmainsuit.innerHTML = card.suit;
+    if (card.suit == '&hearts;' || card.suit == '&diam;') {
+        spansuit.style.color = 'red';
+        spanmainsuit.style.color = 'red';
+    }
 
     const spanrank2 = spanrank.cloneNode(true);
     const spansuit2 = spansuit.cloneNode(true);
 
-    div['className'] = 'card';
+    // div['className'] = 'card';
+    div.className = 'card';
     div.appendChild(spanrank);
     div.appendChild(spansuit);
     div.appendChild(spanmainsuit);
@@ -125,7 +130,7 @@ function dealInitialHands() {
             newCardDiv = createCardHTML(newcard);
             placeCard(`${player}Card${i}`, newCardDiv);
             incrementTotal(`${player}Container`, `${player}Sum`);
-                });
+        });
     }
     let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
 

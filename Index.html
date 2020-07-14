@@ -22,6 +22,15 @@
     </header>
     
     <main>
+      <div>
+        <p>
+          <span>Count:</span><span id="cardcount">0</span>
+          <input type="checkbox" name="cbcardcount" id="cbCardCount">
+          <label>hide count</label>
+        </p>
+      </div>
+
+      <label id="plyrGameResult"></label>
       <div class="table">
         <div class="dealer">
           <h2>Dealer</h2>
@@ -38,7 +47,6 @@
 
         <div>
           <h2>Player 1</h2>
-          <label id="plyrGameResult"></label>
           <label id="plyrSum">0</label>
           <div class="plyrContainer">
             <div class="dealtCards">
@@ -49,14 +57,6 @@
             <div id="plyrbumpedCards"></div>
           </div>
         </div>
-      </div>
-
-      <div>
-        <p>
-          <span>Count:</span><span id="cardcount">0</span>
-          <input type="checkbox" name="cbcardcount" id="cbCardCount">
-          <label>hide count</label>
-        </p>
       </div>
 
       <form id="playControls">

@@ -1,6 +1,6 @@
-body {
+/* body {
     margin-left: 3em;
-}
+} */
 
 header,
 nav, 
@@ -24,18 +24,18 @@ nav li {
     border-radius: .4em;
 }
 
-label {
+/* label {
     margin-right: 1.5em;
+} */
+
+#plyrGameResult {
+    text-align: center;
 }
 
 #dlrSum,
 #plyrSum {
     display: block;
     margin-bottom: .5em;
-}
-
-#playControls {
-    margin-top: 2em;
 }
 
 .dlrContainer,
@@ -62,6 +62,14 @@ label {
 .hide {
     /* transition: 0.4s; */
     visibility: hidden;
+}
+
+#playControls {
+    margin-top: 2em;
+}
+
+.table {
+    border: solid 2px red;
 }
 
 /*   For formatting the playing card  BEGIN  */
@@ -109,18 +117,16 @@ span[textContent="&hearts;"] {
   Media Queries
 --------------------------- */
 @media (min-width: 769px) {
-    nav ul {
-        flex-direction: row;
-    }
-
     header {
         height: 300px;
         flex-direction: column;
     } 
     nav {
         margin-top: 3em;
-        flex-direction: row;
         justify-content: space-between;
+    }
+    nav ul {
+        flex-direction: row;
     }
     nav a {
         border-bottom-color: transparent;
