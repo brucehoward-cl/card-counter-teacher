@@ -79,45 +79,9 @@ function createCardHTML (card) {
 
 function LoadPage() {
     deckOfCards = shuffleDeck();
-    // DealHands();
     dealInitialHands();
 }
     
-// function DealHands() {
-
-//     let cardcount = document.getElementById("cardcount");
-
-//     let newcard = dealCard();
-//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-//     let newCardDiv = createCardHTML(newcard);
-//     placeCard("plyrCard1", newCardDiv);
-//     incrementTotal('plyrContainer', 'plyrSum');
-
-//     newcard = dealCard();
-//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-//     newCardDiv = createCardHTML(newcard);
-//     placeCard("dlrCard1", newCardDiv);
-//     incrementTotal('dlrContainer', 'dlrSum');
-
-//     newcard = dealCard();
-//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-//     newCardDiv = createCardHTML(newcard);
-//     placeCard("plyrCard2", newCardDiv);
-//     incrementTotal('plyrContainer', 'plyrSum');
-
-//     newcard = dealCard();
-//     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
-//     newCardDiv = createCardHTML(newcard);
-//     placeCard("dlrCard2", newCardDiv);
-//     incrementTotal('dlrContainer', 'dlrSum');
-
-//     let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
-
-//    if  (plyrSum == 21) {
-//         btnHitMe.disabled = true;
-//     }
-
-// }
 
 function dealInitialHands() {
     
@@ -158,6 +122,7 @@ function hitMe() {
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
+    // This is commented out specifically to allow mentors to just keep hitting cards to check various behaviors
     // if (sum > 21) { 
     //     btnHitMe.disabled = true;
     // }
