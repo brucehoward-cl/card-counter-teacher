@@ -26,7 +26,12 @@ function dealCard() {
             deckOfCards = shuffleDeck();
             numOfCardsInDeck.textContent = 52;
         } else {
-            console.log("No, I'm done");
+            let lblPlyrResult = document.getElementById('plyrGameResult');
+            lblPlyrResult.textContent = "GAME OVER!";
+            btnNewGame.classList.add('hide')
+            btnHitMe.disabled = true;
+            btnStay.disabled = true;
+
             throw 'End of deck';
         }
     }
@@ -101,6 +106,7 @@ function dealInitialHands() {
     if  (plyrSum == 21) {
         btnHitMe.disabled = true;
     }
+    btnNewGame.classList.add('hide')
 
 }
 
@@ -122,13 +128,14 @@ function hitMe() {
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
-    // This is commented out specifically to allow mentors to just keep hitting cards to check various behaviors
-    // if (sum > 21) { 
-    //     btnHitMe.disabled = true;
-    // }
-    // else if (sum == 21) {
-    //     btnHitMe.disabled = true;
-    // }
+    let plyrSum = document.getElementById('plyrSum');
+    var sum = parseInt(plyrSum.textContent);
+    if (sum > 21) { 
+        btnHitMe.disabled = true;
+    }
+    else if (sum == 21) {
+        btnHitMe.disabled = true;
+    }
 }
 
 
@@ -165,6 +172,8 @@ function hitDealer() {
 
     
 function newGame() {
+    btnNewGame.classList.add('hide')
+
     let plyrCard1 = document.getElementById('plyrCard1');
     let plyrCard2 = document.getElementById('plyrCard2');
     let dlrCard1 = document.getElementById('dlrCard1');
@@ -182,7 +191,6 @@ function newGame() {
     lblPlyrResult.textContent = "";
 
     btnHitMe.disabled = false;
-
 
     while (dlrbumpCards.firstChild) {
         dlrbumpCards.removeChild(dlrbumpCards.lastChild);
@@ -260,6 +268,8 @@ function determineWinner() {
             lblPlyrResult.textContent = "YOU LOSE!";
         }
     }
+
+    btnNewGame.classList.remove('hide')
 
 }
 

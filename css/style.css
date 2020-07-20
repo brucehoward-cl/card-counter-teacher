@@ -24,16 +24,18 @@ nav li {
     background-color: #D8C3A5;
 }
 
-.center {
-    margin: auto;
-    width: 50%;
+.legend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 #plyrGameResult {
     font-size: 2rem;
     color: #F13C20;
-    width: 30%;
     margin: auto;
+    display: block;
 }
 #btnnewgame {
     width: 10rem;
@@ -88,9 +90,9 @@ nav li {
 }
 .table button {
     width: 10rem;
-    color: #83677B;
+    color: white;
     font-weight: bold;
-    background-color: #ADADAD;
+    background-color: #379683;
     padding: .5rem 0;
 }
 .dealer {
@@ -165,6 +167,10 @@ span[textContent="&hearts;"] {
         border-bottom-color: transparent;
     }
            
+    .legend {
+        width: 80%;
+    }
+
     .table {
         width: 80%;
         align-items: center;
@@ -176,6 +182,10 @@ span[textContent="&hearts;"] {
 @media screen and (min-width: 1025px) {
     nav ul li {
         flex-direction: row;
+    }
+
+    .legend {
+        width: 80%;
     }
 
     .table {
