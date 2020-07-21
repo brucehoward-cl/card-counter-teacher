@@ -72,7 +72,7 @@ nav li {
     display: flex;
 }
 
-.test {
+.plyrCards {
     display: flex;
     flex-direction: row;
 }
@@ -112,7 +112,7 @@ nav li {
 .players {
     margin: 1rem;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row-reverse;
 }
 
 /*   For formatting the playing card  BEGIN  */

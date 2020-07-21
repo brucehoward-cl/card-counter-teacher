@@ -1,6 +1,7 @@
 let dlrbumpCards = document.getElementById('dlrbumpedCards');
 let plyrbumpCards = document.getElementById('plyrbumpedCards');
 let players = ["plyr","dlr"];
+let playersDiv = document.getElementsByClassName('players')[0];
 
 const btnHitMe = document.getElementById('btnhitme');
 const btnStay = document.getElementById('btnstay');
@@ -53,7 +54,7 @@ function dealCard() {
     return card;
 }
 
-//This function takes the card object and converts it to html
+//This function takes the card object and converts it to html and returns the html
 function createCardHTML (card) {
 
     const div = document.createElement('div');
@@ -84,6 +85,33 @@ function createCardHTML (card) {
     return div;
 }
 
+function createPlayerHTML (playerNum) {
+    const div = document.createElement('div');
+    div.className = 'plyrContainer';
+    const btnStay = document.createElement('button');
+    btnStay.className = 'btn-stay';
+    btnStay.textContent = 'Stay';
+    const btnHitMe = document.createElement('button');
+    btnHitMe.className = 'btn-hitme';
+    btnHitMe.textContent = 'Hit Me';
+    const h2 = document.createElement('h2');
+    h2.textContent = `Player ${playerNum}`;
+    const label = document.createElement('label');
+    label.id = `plyr${playerNum}Sum`;
+    label.textContent = 0;
+    
+    const divPlyrCards = document.createElement('div');
+    divPlyrCards.className = 'plyrCards';
+
+    div.appendChild(btnStay);
+    div.appendChild(btnHitMe);
+    div.appendChild(h2);
+    div.appendChild(label);
+    div.appendChild(divPlyrCards);
+
+    playersDiv.appendChild(div);
+}
+
 function LoadPage() {
     deckOfCards = shuffleDeck();
     dealInitialHands();
@@ -92,6 +120,11 @@ function LoadPage() {
         var response = prompt("How many players?","");
         numOfPlayers = parseInt(response);
     } while (isNaN(numOfPlayers) || numOfPlayers == 0);
+
+    for (let n = 1; n <= numOfPlayers; n++)
+    {
+        createPlayerHTML(n);
+    }
 
 }
     
