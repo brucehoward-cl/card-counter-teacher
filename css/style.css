@@ -51,11 +51,15 @@ nav li {
     font-weight: bold;
 }
 
-.dlrContainer,
-.plyrContainer
+.dlrContainer
 {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+}
+
+.plyrContainer {
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 #dlrbumpedCards,
@@ -66,6 +70,11 @@ nav li {
 
 .dealtCards {
     display: flex;
+}
+
+.test {
+    display: flex;
+    flex-direction: row;
 }
 
 #cardcount {

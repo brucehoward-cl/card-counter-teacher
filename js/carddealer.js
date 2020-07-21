@@ -20,6 +20,7 @@ function randomNumber(upper) {
     return Math.floor( Math.random() * upper );
   }
     
+// This function pulls a card out of the deck and returns the card (which is just the object from the array of objects)
 function dealCard() {
     if (deckOfCards.length == 0) {
         if (confirm("There are no cards left in the deck.\nDo you want to continue with a fresh deck?")) {
@@ -52,6 +53,7 @@ function dealCard() {
     return card;
 }
 
+//This function takes the card object and converts it to html
 function createCardHTML (card) {
 
     const div = document.createElement('div');
@@ -85,6 +87,12 @@ function createCardHTML (card) {
 function LoadPage() {
     deckOfCards = shuffleDeck();
     dealInitialHands();
+
+    do {
+        var response = prompt("How many players?","");
+        numOfPlayers = parseInt(response);
+    } while (isNaN(numOfPlayers) || numOfPlayers == 0);
+
 }
     
 

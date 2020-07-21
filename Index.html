@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>Card Counter Teacher</title>
+  <meta name="viewport" content="width=device-width">
   <link href="css/normalize.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
+
 </head>
 <body onload="LoadPage()">
   <div class="wrapper">
@@ -51,19 +53,19 @@
 
         <div class="players">
 
-          <button id="btnstay" class="btn-stay" type="button" name="button" value="stay">Stay</button>
-          <button id="btnhitme" class="btn-hitme" type="button" name="button" value="hitme">Hit Me</button>
-          <h2>Player 1</h2>
-          <label id="plyrSum">0</label>
-
           <div class="plyrContainer">
 
-            <div class="dealtCards">
-              <div id="plyrCard1"></div>
-              <div id="plyrCard2"></div>
+            <button id="btnstay" class="btn-stay" type="button" name="button" value="stay">Stay</button>
+            <button id="btnhitme" class="btn-hitme" type="button" name="button" value="hitme">Hit Me</button>
+            <h2>Player 1</h2>
+            <label id="plyrSum">0</label>
+            <div class="test">
+              <div class="dealtCards">
+                <div id="plyrCard1"></div>
+                <div id="plyrCard2"></div>
+              </div>
+              <div id="plyrbumpedCards"></div>
             </div>
-            <div id="plyrbumpedCards"></div>
-
           </div>
         </div>
       </div>
