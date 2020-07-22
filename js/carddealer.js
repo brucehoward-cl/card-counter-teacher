@@ -158,7 +158,8 @@ function dealInitialHands() {
             cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
             newCardDiv = createCardHTML(newcard);
             placeCard(`${player}Card${i}`, newCardDiv);
-            incrementTotal(`${player}Container`, `${player}Sum`);
+            // incrementTotal(`${player}Container`, `${player}Sum`);
+            incrementTotal(`${player}Cards`, `${player}Sum`);
         });
     }
     let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
@@ -183,7 +184,8 @@ function hitMe() {
     let newCardDiv = createCardHTML(card);
     plyrbumpCards.appendChild(newCardDiv);
 
-    incrementTotal('plyrContainer', 'plyrSum');
+    // incrementTotal('plyrContainer', 'plyrSum');
+    incrementTotal('plyrCards', 'plyrSum');
 
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
@@ -216,7 +218,8 @@ function hitDealer() {
         let newCardDiv = createCardHTML(card);
         dlrbumpCards.appendChild(newCardDiv);
 
-        incrementTotal('dlrContainer', 'dlrSum');
+        // incrementTotal('dlrContainer', 'dlrSum');
+        incrementTotal('dlrCards', 'dlrSum');
 
         let cardcount = document.getElementById("cardcount");
         cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
@@ -262,11 +265,11 @@ function newGame() {
 }
 
 
-function incrementTotal(container, sumlabel) {
+function incrementTotal(cardDiv, sumlabel) {
 
     let divSum = document.getElementById(sumlabel);
 
-    let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
+    let spanCollection = document.getElementsByName(cardDiv)[0].getElementsByTagName('span');    
     let spanArray = Array.from(spanCollection);
     let nbrOfAces = spanArray.filter(x => x.textContent == "A").length / 2;
 
@@ -289,6 +292,34 @@ function incrementTotal(container, sumlabel) {
     divSum.textContent = sum;
 
 }
+
+// function incrementTotal(container, sumlabel) {
+
+//     let divSum = document.getElementById(sumlabel);
+
+//     let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
+//     let spanArray = Array.from(spanCollection);
+//     let nbrOfAces = spanArray.filter(x => x.textContent == "A").length / 2;
+
+//     let sum = 0;
+//     for (i = 0; i < spanArray.length; i++) {
+//         if (spanArray[i].hasAttribute("data-value")){
+//             sum += parseInt(spanArray[i].getAttribute("data-value"));  // This is the custom attribute on the rank elements
+//         }
+//     }
+
+//     sum = sum / 2; // up to this point every card value has been added twice because the rank appears twice on each card;
+
+//     if (sum > 21) {
+//         while (nbrOfAces > 0 && sum > 21) {
+//             sum -= 10;
+//             nbrOfAces--;
+//         }
+//     }
+
+//     divSum.textContent = sum;
+
+// }
 
 
 function determineWinner() {

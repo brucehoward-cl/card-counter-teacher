@@ -51,11 +51,6 @@ nav li {
     font-weight: bold;
 }
 
-.dlrContainer
-{
-    display: flex;
-    /* flex-wrap: wrap; */
-}
 
 .plyrContainer {
     display: flex;
@@ -73,6 +68,11 @@ nav li {
 }
 
 .plyrCards {
+    display: flex;
+    flex-direction: row;
+}
+
+.dlrCards {
     display: flex;
     flex-direction: row;
 }
