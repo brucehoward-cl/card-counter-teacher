@@ -1,6 +1,6 @@
 let dlrbumpCards = document.getElementById('dlrbumpedCards');
 let plyrbumpCards = document.getElementById('plyrbumpedCards');
-let players = ["plyr","dlr"];
+let players = ["plyr","dlr","player1"];
 let playersDiv = document.getElementsByClassName('players')[0];
 
 const btnHitMe = document.getElementById('btnhitme');
@@ -102,7 +102,7 @@ function createPlayerHTML (playerNum) {
 
     const label = document.createElement('label');
 
-    label.id = `plyr${playerNum}Sum`;
+    label.id = `player${playerNum}Sum`;
     label.textContent = 0;
     
     const divPlyrCards = document.createElement('div');
@@ -133,7 +133,6 @@ function createPlayerHTML (playerNum) {
 
 function LoadPage() {
     deckOfCards = shuffleDeck();
-    dealInitialHands();
 
     do {
         var response = prompt("How many players?","");
@@ -144,6 +143,7 @@ function LoadPage() {
     {
         createPlayerHTML(n);
     }
+    dealInitialHands();
 
 }
     
