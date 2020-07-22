@@ -88,26 +88,45 @@ function createCardHTML (card) {
 function createPlayerHTML (playerNum) {
     const div = document.createElement('div');
     div.className = 'plyrContainer';
+
     const btnStay = document.createElement('button');
     btnStay.className = 'btn-stay';
     btnStay.textContent = 'Stay';
+
     const btnHitMe = document.createElement('button');
     btnHitMe.className = 'btn-hitme';
     btnHitMe.textContent = 'Hit Me';
+
     const h2 = document.createElement('h2');
     h2.textContent = `Player ${playerNum}`;
+
     const label = document.createElement('label');
+
     label.id = `plyr${playerNum}Sum`;
     label.textContent = 0;
     
     const divPlyrCards = document.createElement('div');
     divPlyrCards.className = 'plyrCards';
+    divPlyrCards.setAttribute('name', `player${playerNum}Cards`);
+
+    const divDealtCards = document.createElement('div');
+    divDealtCards.className = 'dealtCards';
+
+    const divCard1 = document.createElement('div');
+    divCard1.id = `player${playerNum}Card1`;
+    const divCard2 = document.createElement('div');
+    divCard2.id = `player${playerNum}Card2`;
 
     div.appendChild(btnStay);
     div.appendChild(btnHitMe);
     div.appendChild(h2);
     div.appendChild(label);
+
+    divDealtCards.appendChild(divCard1);
+    divDealtCards.appendChild(divCard2);
+    divPlyrCards.appendChild(divDealtCards);
     div.appendChild(divPlyrCards);
+
 
     playersDiv.appendChild(div);
 }
