@@ -255,6 +255,15 @@ function newGame() {
 
     btnHitMe.disabled = false;
 
+    for (let i = 1; i <= 2; i++) {
+        players.forEach(player => {
+            let div1 = document.getElementById(`${player}Card1`);
+            let div2 = document.getElementById(`${player}Card2`);
+            div1.innerHTML = '';
+            div2.innerHTML = '';
+        });
+    }
+
     while (dlrbumpCards.firstChild) {
         dlrbumpCards.removeChild(dlrbumpCards.lastChild);
     }

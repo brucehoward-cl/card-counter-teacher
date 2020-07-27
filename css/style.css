@@ -61,6 +61,7 @@ nav li {
 #plyrbumpedCards
 {
     margin-left: 2em;
+    flex-shrink: 2;
 }
 
 .dealtCards {
@@ -69,7 +70,8 @@ nav li {
 
 .plyrCards {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
+    flex-direction: column-reverse;
 }
 
 .dlrCards {
