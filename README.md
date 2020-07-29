@@ -10,6 +10,7 @@ Installation:   No packages or external software needed.
 PROJECT REQUIREMENTS:
 1. Your project is responsive to different devices and/or browser sizes and improves the user experience in some way
     - I have 2 media queries along with the default styling applying to small screens. 
+    - The two structures that are targeted for the media queries are the navigation buttons and the blackjack card table. It's not earth-shattering but it's there.
 
 2. Your project includes at minimum 3 custom-written CSS elements (selectors, classes, etc) located in a .css file which are applied to your HTML elements
     - There a plenty of examples of this in style.css. 
@@ -29,11 +30,11 @@ PROJECT REQUIREMENTS:
 
 FEATURE REQUIREMENTS (only 3 are needed):
 1. A navigation menu that collapses into a responsive mobile-friendly menu (such as a “hamburger” menu)
-    - I don't have the hamburger menu, but the menu does collapse to fill 2 buttons across the width of the screen.
+    - I don't have the hamburger menu, but the menu does collapse to fill 2 buttons across the width of a small screen.
 
 2. Create a JavaScript function whose return value is used in your site. The function must be triggered by user action (ex: clicking a button).
-    - I think you can find several examples of this, but one example is 'function randomNumber' which returns a random number that is used as an index to pick a card from the deck of remaining cards.
-    - There's also 'function dealCard' which returns a 'card' object from the deckofcards array of objects
+    - There's a number of examples for this too, but 'function dealCard' which returns a 'card' object from the deckofcards array. The card object is just the suit, rank and value of a particular card, that subsequently gets formatted into HTML and placed in an appropriate place on the screen.
+    - The function that formats this card into HTML ('function createCardHTML') could also be considered for this requirement
 
 3. Use JavaScript to perform math operations and display the result on your site
     - 'function incrementTotal' increments each players total score and populates the appropriate player's label. 
@@ -42,7 +43,7 @@ FEATURE REQUIREMENTS (only 3 are needed):
     - an array of objects is used to represent the deck of cards, from which cards are drawn. It is located in 'app.js' (to keep things uncluttered).
 
 5. Use “:nth child” CSS to style a series of elements (for example, change the color of every 2nd item in a list)
-    - There are 3 different instances of "nth child" used to draw the playing card on the screen. ('div.card span:nth-child') 
+    - There are 3 different instances of "nth child" used to draw the playing card on the screen. (search: 'div.card span:nth-child') 
         - The HTML for a card is only 5 span tags within a flexbox container. 
 
 

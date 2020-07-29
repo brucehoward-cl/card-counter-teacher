@@ -77,7 +77,6 @@ nav li {
     visibility: hidden;
 }
 
-
 .table {
     display: flex;
     border: solid 2px black;
@@ -157,12 +156,19 @@ span[textContent="&hearts;"] {
         flex-direction: column;
     } 
     nav {
+        width: 80%;
         margin-top: 3em;
         justify-content: space-between;
     }
     nav ul {
         flex-direction: row;
+        justify-content: space-between;
     }
+    
+    nav ul li {
+        width: 35%;
+    }
+
     nav a {
         border-bottom-color: transparent;
     }
@@ -180,16 +186,28 @@ span[textContent="&hearts;"] {
 }
 
 @media screen and (min-width: 1025px) {
+    nav {
+        justify-content: center;
+        width: 80%;
+        margin: auto;
+    }
+
+    nav ul {
+        justify-content: space-around;
+    }
+    
     nav ul li {
-        flex-direction: row;
+        width: 40%;
     }
 
     .legend {
         width: 80%;
+        margin: auto;
     }
 
     .table {
         width: 80%;
+        margin: auto;
         align-items: center;
         border-radius: 15rem;
     } 
