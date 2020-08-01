@@ -87,9 +87,21 @@ function dealInitialHands() {
             newCardDiv = createCardHTML(newcard);
             placeCard(`${player}Card${i}`, newCardDiv);
             incrementTotal(`${player}Cards`, `${player}Sum`);
+            if (player == "player1") {
+                let btnHitMe = document.getElementById(`btn${player}HitMe`);
+                let btnStay = document.getElementById(`btn${player}Stay`);
+                btnHitMe.classList.remove('hide');
+                btnStay.classList.remove('hide');
+            } else if (player != 'dlr') {
+                let btnHitMe = document.getElementById(`btn${player}HitMe`);
+                let btnStay = document.getElementById(`btn${player}Stay`);
+                btnHitMe.classList.add('hide');
+                btnStay.classList.add('hide');
+            }
+
             let plyrSum = parseInt(document.getElementById(`${player}Sum`).textContent);
             if  (plyrSum == 21) {
-                let btnHitMe = document.getElementById(`btnplayer${playerNum}HitMe`);
+                let btnHitMe = document.getElementById(`btn${player}HitMe`);
                 btnHitMe.disabled = true;
             }
         });
@@ -131,7 +143,22 @@ function hitMe(event) {
 function stay(event) {
     let btnHitMe = document.getElementById(`btn${event.target.name}HitMe`);
     btnHitMe.disabled = true;
-    hitDealer();
+    btnHitMe.classList.add('hide');
+    let btnStay = document.getElementById(`btn${event.target.name}Stay`);
+    btnStay.classList.add('hide');
+
+    let idx = players.findIndex(p => p == event.target.name);
+    if (idx == players.length - 2) {
+        hitDealer();
+    } else {
+        let btnHitMeNext = document.getElementById(`btn${players[idx+1]}HitMe`);
+        let btnStayNext = document.getElementById(`btn${players[idx+1]}Stay`);
+        btnHitMeNext.disabled = false;
+        btnHitMeNext.classList.remove('hide');
+        btnStayNext.classList.remove('hide');
+    }
+
+
 }
 
 function hitDealer() {
