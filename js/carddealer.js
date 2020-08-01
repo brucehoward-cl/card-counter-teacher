@@ -1,6 +1,6 @@
 let dlrbumpCards = document.getElementById('dlrbumpedCards');
 let plyrbumpCards = document.getElementById('plyrbumpedCards');
-let players = ["plyr","dlr","player1"];
+let players = [];
 let playersDiv = document.getElementsByClassName('players')[0];
 
 const btnHitMe = document.getElementById('btnhitme');
@@ -90,13 +90,20 @@ function createPlayerHTML (playerNum) {
     div.className = 'plyrContainer';
 
     const btnStay = document.createElement('button');
+    btnStay.type = 'button';
     btnStay.className = 'btn-stay';
     btnStay.textContent = 'Stay';
+    btnStay.name = `player${playerNum}`;
+    btnStay.addEventListener("click", stay);
+
 
     const btnHitMe = document.createElement('button');
+    btnHitMe.type = 'button';
     btnHitMe.className = 'btn-hitme';
     btnHitMe.textContent = 'Hit Me';
-
+    btnHitMe.name = `player${playerNum}`;
+    btnHitMe.addEventListener("click", hitMe);
+    
     const h2 = document.createElement('h2');
     h2.textContent = `Player ${playerNum}`;
 
@@ -117,6 +124,16 @@ function createPlayerHTML (playerNum) {
     const divCard2 = document.createElement('div');
     divCard2.id = `player${playerNum}Card2`;
 
+    const divbumpedCards = document.createElement('div');
+    divbumpedCards.id = `player${playerNum}bumpedCards`;
+
+    const divMessage = document.createElement('div');
+    divMessage.className = 'plyrGameResult';
+    const h2Message = document.createElement('h2');
+    h2Message.id = `player${playerNum}Result`;
+    divMessage.appendChild(h2Message);
+
+
     div.appendChild(btnStay);
     div.appendChild(btnHitMe);
     div.appendChild(h2);
@@ -125,10 +142,12 @@ function createPlayerHTML (playerNum) {
     divDealtCards.appendChild(divCard1);
     divDealtCards.appendChild(divCard2);
     divPlyrCards.appendChild(divDealtCards);
+    divPlyrCards.appendChild(divbumpedCards);
     div.appendChild(divPlyrCards);
-
+    div.appendChild(divMessage);
 
     playersDiv.appendChild(div);
+
 }
 
 function LoadPage() {
@@ -142,7 +161,11 @@ function LoadPage() {
     for (let n = 1; n <= numOfPlayers; n++)
     {
         createPlayerHTML(n);
+        players.push(`player${n}`);
     }
+
+    players.push('dlr');
+
     dealInitialHands();
 
 }
@@ -158,7 +181,6 @@ function dealInitialHands() {
             cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
             newCardDiv = createCardHTML(newcard);
             placeCard(`${player}Card${i}`, newCardDiv);
-            // incrementTotal(`${player}Container`, `${player}Sum`);
             incrementTotal(`${player}Cards`, `${player}Sum`);
         });
     }
@@ -178,14 +200,15 @@ function placeCard (player, card) {
 }
 
 
-function hitMe() {
+function hitMe(event) {
     let card = dealCard();
 
     let newCardDiv = createCardHTML(card);
-    plyrbumpCards.appendChild(newCardDiv);
 
-    // incrementTotal('plyrContainer', 'plyrSum');
-    incrementTotal('plyrCards', 'plyrSum');
+    let bumpCards = document.getElementById(`${event.target.name}bumpedCards`);
+    bumpCards.appendChild(newCardDiv);
+
+    incrementTotal(`${event.target.name}Cards`, `${event.target.name}Sum`);
 
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
@@ -255,21 +278,15 @@ function newGame() {
 
     btnHitMe.disabled = false;
 
-    for (let i = 1; i <= 2; i++) {
-        players.forEach(player => {
-            let div1 = document.getElementById(`${player}Card1`);
-            let div2 = document.getElementById(`${player}Card2`);
-            div1.innerHTML = '';
-            div2.innerHTML = '';
-        });
-    }
+    players.forEach(player => {
+        let div1 = document.getElementById(`${player}Card1`);
+        let div2 = document.getElementById(`${player}Card2`);
+        let div3 = document.getElementById(`${player}bumpedCards`);
+        div1.innerHTML = '';
+        div2.innerHTML = '';
+        div3.innerHTML = '';
+    });
 
-    while (dlrbumpCards.firstChild) {
-        dlrbumpCards.removeChild(dlrbumpCards.lastChild);
-    }
-    while (plyrbumpCards.firstChild) {
-        plyrbumpCards.removeChild(plyrbumpCards.lastChild);
-    }
     dealInitialHands();
 }
 
@@ -302,72 +319,47 @@ function incrementTotal(cardDiv, sumlabel) {
 
 }
 
-// function incrementTotal(container, sumlabel) {
-
-//     let divSum = document.getElementById(sumlabel);
-
-//     let spanCollection = document.getElementsByClassName(container)[0].getElementsByTagName('span');    
-//     let spanArray = Array.from(spanCollection);
-//     let nbrOfAces = spanArray.filter(x => x.textContent == "A").length / 2;
-
-//     let sum = 0;
-//     for (i = 0; i < spanArray.length; i++) {
-//         if (spanArray[i].hasAttribute("data-value")){
-//             sum += parseInt(spanArray[i].getAttribute("data-value"));  // This is the custom attribute on the rank elements
-//         }
-//     }
-
-//     sum = sum / 2; // up to this point every card value has been added twice because the rank appears twice on each card;
-
-//     if (sum > 21) {
-//         while (nbrOfAces > 0 && sum > 21) {
-//             sum -= 10;
-//             nbrOfAces--;
-//         }
-//     }
-
-//     divSum.textContent = sum;
-
-// }
-
 
 function determineWinner() {
 
     let divDlrSum = document.getElementById('dlrSum');
     var dlrSum = parseInt(divDlrSum.textContent);
-    let divPlyrSum = document.getElementById('plyrSum');
-    var plyrSum = parseInt(divPlyrSum.textContent);
 
-    let lblPlyrResult = document.getElementById('plyrGameResult');
-
-    if (plyrSum == 21) {
-        if (dlrSum == 21) {
-            lblPlyrResult.textContent = "IT'S A PUSH";
+    players.forEach(player => {
+        if (player != 'dlr') {
+            let divPlyrSum = document.getElementById(`${player}Sum`);
+            var plyrSum = parseInt(divPlyrSum.textContent);
+            let lblPlyrResult = document.getElementById(`${player}Result`);
+            if (plyrSum == 21) {
+                if (dlrSum == 21) {
+                    lblPlyrResult.textContent = "IT'S A PUSH";
+                }
+                else {
+                    lblPlyrResult.textContent = "YOU WIN!";
+                }
+            }
+            else if (plyrSum > 21) {
+                lblPlyrResult.textContent = "YOU LOSE!";
+            }
+            else if (plyrSum < 21) {
+                if (dlrSum > 21) {
+                    lblPlyrResult.textContent = "YOU WIN!";
+                }
+                else if (dlrSum == 21) {
+                    lblPlyrResult.textContent = "YOU LOSE!";
+                }
+                else if (plyrSum > dlrSum) {
+                    lblPlyrResult.textContent = "YOU WIN!";
+                }
+                else if (plyrSum == dlrSum) {
+                    lblPlyrResult.textContent = "IT'S A PUSH";
+                }
+                else if (plyrSum < dlrSum) {
+                    lblPlyrResult.textContent = "YOU LOSE!";
+                }
+            }
         }
-        else {
-            lblPlyrResult.textContent = "YOU WIN!";
-        }
-    }
-    else if (plyrSum > 21) {
-        lblPlyrResult.textContent = "YOU LOSE!";
-    }
-    else if (plyrSum < 21) {
-        if (dlrSum > 21) {
-            lblPlyrResult.textContent = "YOU WIN!";
-        }
-        else if (dlrSum == 21) {
-            lblPlyrResult.textContent = "YOU LOSE!";
-        }
-        else if (plyrSum > dlrSum) {
-            lblPlyrResult.textContent = "YOU WIN!";
-        }
-        else if (plyrSum == dlrSum) {
-            lblPlyrResult.textContent = "IT'S A PUSH";
-        }
-        else if (plyrSum < dlrSum) {
-            lblPlyrResult.textContent = "YOU LOSE!";
-        }
-    }
+    });
 
     btnNewGame.classList.remove('hide')
 

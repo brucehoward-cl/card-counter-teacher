@@ -31,11 +31,10 @@ nav li {
     width: 100%;
 }
 
-#plyrGameResult {
+.plyrGameResult {
     font-size: 2rem;
     color: #F13C20;
-    margin: auto;
-    display: block;
+    justify-content: flex-end;
 }
 #btnnewgame {
     width: 10rem;
@@ -55,6 +54,8 @@ nav li {
 .plyrContainer {
     display: flex;
     flex-direction: column-reverse;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 #dlrbumpedCards,
