@@ -1,15 +1,15 @@
 let dlrbumpCards = document.getElementById('dlrbumpedCards');
-let plyrbumpCards = document.getElementById('plyrbumpedCards');
+// let plyrbumpCards = document.getElementById('plyrbumpedCards');
 let players = [];
 let playersDiv = document.getElementsByClassName('players')[0];
 
-const btnHitMe = document.getElementById('btnhitme');
-const btnStay = document.getElementById('btnstay');
+// const btnHitMe = document.getElementById('btnhitme');
+// const btnStay = document.getElementById('btnstay');
 const btnNewGame = document.getElementById('btnnewgame');
 const cbCardCount = document.getElementById('cbCardCount');
 
-btnHitMe.addEventListener("click", hitMe);
-btnStay.addEventListener("click", stay);
+// btnHitMe.addEventListener("click", hitMe);
+// btnStay.addEventListener("click", stay);
 btnNewGame.addEventListener("click", newGame);
 cbCardCount.addEventListener("click", toggleCardCount);
 
@@ -54,101 +54,6 @@ function dealCard() {
     return card;
 }
 
-//This function takes the card object and converts it to html and returns the html
-function createCardHTML (card) {
-
-    const div = document.createElement('div');
-    const spanrank = document.createElement('span');
-    const spansuit = document.createElement('span');
-    const spanmainsuit = document.createElement('span');
-
-    spanrank.innerHTML = card.rank;
-    spanrank.setAttribute('data-value', card.value);  //custom attribute 
-    spansuit.innerHTML = card.suit;
-    spanmainsuit.innerHTML = card.suit;
-    if (card.suit == '&hearts;' || card.suit == '&diam;') {
-        spansuit.style.color = '#C3073F';
-        spanmainsuit.style.color = '#C3073F';
-    }
-
-    const spanrank2 = spanrank.cloneNode(true);
-    const spansuit2 = spansuit.cloneNode(true);
-
-    // div['className'] = 'card';
-    div.className = 'card';
-    div.appendChild(spanrank);
-    div.appendChild(spansuit);
-    div.appendChild(spanmainsuit);
-    div.appendChild(spansuit2);
-    div.appendChild(spanrank2);
-
-    return div;
-}
-
-function createPlayerHTML (playerNum) {
-    const div = document.createElement('div');
-    div.className = 'plyrContainer';
-
-    const btnStay = document.createElement('button');
-    btnStay.type = 'button';
-    btnStay.className = 'btn-stay';
-    btnStay.textContent = 'Stay';
-    btnStay.name = `player${playerNum}`;
-    btnStay.addEventListener("click", stay);
-
-
-    const btnHitMe = document.createElement('button');
-    btnHitMe.type = 'button';
-    btnHitMe.className = 'btn-hitme';
-    btnHitMe.textContent = 'Hit Me';
-    btnHitMe.name = `player${playerNum}`;
-    btnHitMe.addEventListener("click", hitMe);
-    
-    const h2 = document.createElement('h2');
-    h2.textContent = `Player ${playerNum}`;
-
-    const label = document.createElement('label');
-
-    label.id = `player${playerNum}Sum`;
-    label.textContent = 0;
-    
-    const divPlyrCards = document.createElement('div');
-    divPlyrCards.className = 'plyrCards';
-    divPlyrCards.setAttribute('name', `player${playerNum}Cards`);
-
-    const divDealtCards = document.createElement('div');
-    divDealtCards.className = 'dealtCards';
-
-    const divCard1 = document.createElement('div');
-    divCard1.id = `player${playerNum}Card1`;
-    const divCard2 = document.createElement('div');
-    divCard2.id = `player${playerNum}Card2`;
-
-    const divbumpedCards = document.createElement('div');
-    divbumpedCards.id = `player${playerNum}bumpedCards`;
-
-    const divMessage = document.createElement('div');
-    divMessage.className = 'plyrGameResult';
-    const h2Message = document.createElement('h2');
-    h2Message.id = `player${playerNum}Result`;
-    divMessage.appendChild(h2Message);
-
-
-    div.appendChild(btnStay);
-    div.appendChild(btnHitMe);
-    div.appendChild(h2);
-    div.appendChild(label);
-
-    divDealtCards.appendChild(divCard1);
-    divDealtCards.appendChild(divCard2);
-    divPlyrCards.appendChild(divDealtCards);
-    divPlyrCards.appendChild(divbumpedCards);
-    div.appendChild(divPlyrCards);
-    div.appendChild(divMessage);
-
-    playersDiv.appendChild(div);
-
-}
 
 function LoadPage() {
     deckOfCards = shuffleDeck();
@@ -182,13 +87,14 @@ function dealInitialHands() {
             newCardDiv = createCardHTML(newcard);
             placeCard(`${player}Card${i}`, newCardDiv);
             incrementTotal(`${player}Cards`, `${player}Sum`);
+            let plyrSum = parseInt(document.getElementById(`${player}Sum`).textContent);
+            if  (plyrSum == 21) {
+                let btnHitMe = document.getElementById(`btnplayer${playerNum}HitMe`);
+                btnHitMe.disabled = true;
+            }
         });
     }
-    let plyrSum = parseInt(document.getElementById('plyrSum').textContent);
 
-    if  (plyrSum == 21) {
-        btnHitMe.disabled = true;
-    }
     btnNewGame.classList.add('hide')
 
 }
@@ -213,12 +119,10 @@ function hitMe(event) {
     let cardcount = document.getElementById("cardcount");
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
-    let plyrSum = document.getElementById('plyrSum');
+    let plyrSum = document.getElementById(`${event.target.name}Sum`);
     var sum = parseInt(plyrSum.textContent);
-    if (sum > 21) { 
-        btnHitMe.disabled = true;
-    }
-    else if (sum == 21) {
+    if (sum >= 21) { 
+        let btnHitMe = document.getElementById(`btn${event.target.name}HitMe`);
         btnHitMe.disabled = true;
     }
 }
