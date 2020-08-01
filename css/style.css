@@ -32,10 +32,10 @@ nav li {
 }
 
 .plyrGameResult {
-    font-size: 2rem;
     color: #F13C20;
     justify-content: flex-end;
 }
+
 #btnnewgame {
     width: 10rem;
     /* color: #8D8741; */

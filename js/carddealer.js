@@ -128,7 +128,8 @@ function hitMe(event) {
 }
 
 
-function stay() {
+function stay(event) {
+    let btnHitMe = document.getElementById(`btn${event.target.name}HitMe`);
     btnHitMe.disabled = true;
     hitDealer();
 }
@@ -164,31 +165,25 @@ function hitDealer() {
 function newGame() {
     btnNewGame.classList.add('hide')
 
-    let plyrCard1 = document.getElementById('plyrCard1');
-    let plyrCard2 = document.getElementById('plyrCard2');
-    let dlrCard1 = document.getElementById('dlrCard1');
-    let dlrCard2 = document.getElementById('dlrCard2');
-    let plyrSum = document.getElementById('plyrSum');
-    let dlrSum = document.getElementById('dlrSum');
-    let lblPlyrResult = document.getElementById('plyrGameResult');
-
-    plyrCard1.innerHTML = '';
-    plyrCard2.innerHTML = '';
-    dlrCard1.innerHTML = '';
-    dlrCard2.innerHTML = '';
-    plyrSum.textContent = '0';
-    dlrSum.textContent = '0';
-    lblPlyrResult.textContent = "";
-
-    btnHitMe.disabled = false;
+    // let dlrCard1 = document.getElementById('dlrCard1');
+    // let dlrCard2 = document.getElementById('dlrCard2');
+    // let dlrSum = document.getElementById('dlrSum');
 
     players.forEach(player => {
-        let div1 = document.getElementById(`${player}Card1`);
-        let div2 = document.getElementById(`${player}Card2`);
-        let div3 = document.getElementById(`${player}bumpedCards`);
-        div1.innerHTML = '';
-        div2.innerHTML = '';
-        div3.innerHTML = '';
+        let plyrCard1 = document.getElementById(`${player}Card1`);
+        let plyrCard2 = document.getElementById(`${player}Card2`);
+        let plyrBumpCards = document.getElementById(`${player}bumpedCards`);
+        let plyrSum = document.getElementById(`${player}Sum`);
+        plyrCard1.innerHTML = '';
+        plyrCard2.innerHTML = '';
+        plyrBumpCards.innerHTML = '';
+        plyrSum.textContent = '0';
+        if (player != "dlr") {
+            let lblPlyrResult = document.getElementById(`${player}Result`);
+            lblPlyrResult.textContent = "";
+            let btnHitMe = document.getElementById(`btn${player}HitMe`);
+            btnHitMe.disabled = false;
+        }
     });
 
     dealInitialHands();
