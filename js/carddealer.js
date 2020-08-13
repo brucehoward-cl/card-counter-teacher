@@ -1,20 +1,15 @@
 let dlrbumpCards = document.getElementById('dlrbumpedCards');
-// let plyrbumpCards = document.getElementById('plyrbumpedCards');
 let players = [];
 let playersDiv = document.getElementsByClassName('players')[0];
 
-// const btnHitMe = document.getElementById('btnhitme');
-// const btnStay = document.getElementById('btnstay');
 const btnNewGame = document.getElementById('btnnewgame');
 const cbCardCount = document.getElementById('cbCardCount');
 
-// btnHitMe.addEventListener("click", hitMe);
-// btnStay.addEventListener("click", stay);
 btnNewGame.addEventListener("click", newGame);
 cbCardCount.addEventListener("click", toggleCardCount);
 
-let numOfCardsInDeck = document.getElementById("numOfCardsLeft");
-let deckOfCards = [];
+let numOfCardsRemaining = document.getElementById("numOfCardsLeft");
+let shute = [];
 
 
 function randomNumber(upper) {
@@ -23,40 +18,41 @@ function randomNumber(upper) {
     
 // This function pulls a card out of the deck and returns the card (which is just the object from the array of objects)
 function dealCard() {
-    if (deckOfCards.length == 0) {
+    if (shute.length == 0) {
         if (confirm("There are no cards left in the deck.\nDo you want to continue with a fresh deck?")) {
-            deckOfCards = shuffleDeck();
-            numOfCardsInDeck.textContent = 52;
+            shute = shuffleDeck();
+            numOfCardsRemaining.textContent = 52;
         } else {
             let lblPlyrResult = document.getElementById('plyrGameResult');
             lblPlyrResult.textContent = "GAME OVER!";
-            btnNewGame.classList.add('hide')
-            btnHitMe.disabled = true;
-            btnStay.disabled = true;
+            btnNewGame.classList.add('hide');
+            let playerbtns = document.querySelectorAll(".plyrContainer button");
+            playerbtns.forEach(btn => {
+                btn.disabled = true;
+            });
 
             throw 'End of deck';
         }
     }
-    let cardIndex = randomNumber(parseInt(numOfCardsInDeck.textContent));
-    let card = deckOfCards[cardIndex]; 
+    let cardIndex = randomNumber(parseInt(numOfCardsRemaining.textContent));
+    let card = shute[cardIndex]; 
 
     if (cardIndex == 0) { //remove card from beginning of card array
-        deckOfCards.shift();
-    } else if (cardIndex == (deckOfCards.length - 1)) {  //remove card from end of card array
-        deckOfCards.pop();
+        shute.shift();
+    } else if (cardIndex == (shute.length - 1)) {  //remove card from end of card array
+        shute.pop();
     }
     else { //remove card from middle of card array
-        var tempDeck1 = deckOfCards.slice(0,cardIndex); //doesn't include cardIndex
-        var tempDeck2 = deckOfCards.slice(cardIndex + 1, deckOfCards.length);
-        deckOfCards = tempDeck1.concat(tempDeck2);
+        var tempDeck1 = shute.slice(0,cardIndex); //doesn't include cardIndex
+        var tempDeck2 = shute.slice(cardIndex + 1, shute.length);
+        shute = tempDeck1.concat(tempDeck2);
     }
-    numOfCardsInDeck.textContent = parseInt(numOfCardsInDeck.textContent) - 1;
+    numOfCardsRemaining.textContent = parseInt(numOfCardsRemaining.textContent) - 1;
     return card;
 }
 
 
 function LoadPage() {
-    deckOfCards = shuffleDeck();
 
     do {
         var response = prompt("How many players?","");
@@ -71,6 +67,17 @@ function LoadPage() {
 
     players.push('dlr');
 
+    response = "";
+    do {
+        response = prompt("How many decks in the shute?","");
+        numOfDecks = parseInt(response);
+    } while (isNaN(numOfDecks) || numOfDecks == 0);
+
+    numOfCardsRemaining.textContent = 52 * numOfDecks;
+    for (let n = 1; n <= numOfDecks; n++)
+    {
+        shute = shute.concat(shuffleDeck());
+    }
     dealInitialHands();
 
 }
@@ -78,15 +85,25 @@ function LoadPage() {
 
 function dealInitialHands() {
     
-    let cardcount = document.getElementById("cardcount");
+    let cardcount = document.querySelectorAll(".cardcount")[0];
+    let truecount = document.querySelectorAll(".cardcount")[1];
+    let remainingDecks = Math.round(parseInt(numOfCardsRemaining.textContent) / 52);
+    if (remainingDecks == 0) { remainingDecks = 1; } // quick way to account for that last half of a deck
 
     for (let i = 1; i <= 2; i++) {
         players.forEach(player => {
             newcard = dealCard();
+
             cardcount.textContent = parseInt(cardcount.textContent) + parseInt(newcard.count);
+
+            remainingDecks = Math.round(parseInt(numOfCardsRemaining.textContent) / 52);
+            if (remainingDecks == 0) { remainingDecks = 1; } // quick way to account for that last half of a deck
+            truecount.textContent = Math.round(parseInt(cardcount.textContent) / remainingDecks);
+
             newCardDiv = createCardHTML(newcard);
             placeCard(`${player}Card${i}`, newCardDiv);
             incrementTotal(`${player}Cards`, `${player}Sum`);
+
             if (player == "player1") {
                 let btnHitMe = document.getElementById(`btn${player}HitMe`);
                 let btnStay = document.getElementById(`btn${player}Stay`);
@@ -102,7 +119,9 @@ function dealInitialHands() {
             let plyrSum = parseInt(document.getElementById(`${player}Sum`).textContent);
             if  (plyrSum == 21) {
                 let btnHitMe = document.getElementById(`btn${player}HitMe`);
-                btnHitMe.disabled = true;
+                if (btnHitMe != null) {
+                    btnHitMe.disabled = true;
+                }
             }
         });
     }
@@ -128,8 +147,13 @@ function hitMe(event) {
 
     incrementTotal(`${event.target.name}Cards`, `${event.target.name}Sum`);
 
-    let cardcount = document.getElementById("cardcount");
+    let cardcount = document.querySelectorAll(".cardcount")[0];
     cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
+
+    let truecount = document.querySelectorAll(".cardcount")[1];
+    let remainingDecks = Math.round(parseInt(numOfCardsRemaining.textContent) / 52);
+    if (remainingDecks == 0) { remainingDecks = 1; } // quick way to account for that last half of a deck
+    truecount.textContent = Math.round(parseInt(cardcount.textContent) / remainingDecks);
 
     let plyrSum = document.getElementById(`${event.target.name}Sum`);
     var sum = parseInt(plyrSum.textContent);
@@ -153,7 +177,7 @@ function stay(event) {
     } else {
         let btnHitMeNext = document.getElementById(`btn${players[idx+1]}HitMe`);
         let btnStayNext = document.getElementById(`btn${players[idx+1]}Stay`);
-        btnHitMeNext.disabled = false;
+        // btnHitMeNext.disabled = false;
         btnHitMeNext.classList.remove('hide');
         btnStayNext.classList.remove('hide');
     }
@@ -176,9 +200,14 @@ function hitDealer() {
         // incrementTotal('dlrContainer', 'dlrSum');
         incrementTotal('dlrCards', 'dlrSum');
 
-        let cardcount = document.getElementById("cardcount");
+        let cardcount = document.querySelectorAll(".cardcount")[0];
         cardcount.textContent = parseInt(cardcount.textContent) + parseInt(card.count);
 
+        let truecount = document.querySelectorAll(".cardcount")[1];
+        let remainingDecks = Math.round(parseInt(numOfCardsRemaining.textContent) / 52);
+        if (remainingDecks == 0) { remainingDecks = 1; } // quick way to account for that last half of a deck
+        truecount.textContent = Math.round(parseInt(cardcount.textContent) / remainingDecks);
+    
         setTimeout(hitDealer, 3000);
 
     } 
@@ -191,10 +220,6 @@ function hitDealer() {
     
 function newGame() {
     btnNewGame.classList.add('hide')
-
-    // let dlrCard1 = document.getElementById('dlrCard1');
-    // let dlrCard2 = document.getElementById('dlrCard2');
-    // let dlrSum = document.getElementById('dlrSum');
 
     players.forEach(player => {
         let plyrCard1 = document.getElementById(`${player}Card1`);
@@ -292,12 +317,16 @@ function determineWinner() {
 }
 
 function toggleCardCount() {
-    let cardcount = document.getElementById("cardcount");
+    let lblcardcount = document.querySelectorAll(".cardcount");
+
     if (cbCardCount.checked) {
-        cardcount.classList.add('hide');
+        lblcardcount.forEach(lbl => {
+            lbl.classList.add('hide');
+        });
     } else {
-        cardcount.classList.remove('hide');
+        lblcardcount.forEach(lbl => {
+            lbl.classList.remove('hide');
+        });
     }
-  
 }
 

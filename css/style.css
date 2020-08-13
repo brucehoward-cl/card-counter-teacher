@@ -80,7 +80,7 @@ nav li {
     flex-direction: row;
 }
 
-#cardcount {
+.cardcount {
     margin-left: .5em;
     margin-right: 2em;
 }
