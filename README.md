@@ -1,6 +1,7 @@
 # card-counter-teacher
 Project Name:   Card Counter Teacher
 Description:    Counting Cards is easy in principle, but difficult in practice. But practice is what it takes! This is a website to learn how to count cards at blackjack
+
 Table of Contents:
     Index   where all the action is!
     Rules   describes blackjack rules as well as how to count cards
