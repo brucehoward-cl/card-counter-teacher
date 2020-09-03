@@ -31,12 +31,11 @@ nav li {
     width: 100%;
 }
 
-#plyrGameResult {
-    font-size: 2rem;
+.plyrGameResult {
     color: #F13C20;
-    margin: auto;
-    display: block;
+    justify-content: flex-end;
 }
+
 #btnnewgame {
     width: 10rem;
     /* color: #8D8741; */
@@ -51,24 +50,37 @@ nav li {
     font-weight: bold;
 }
 
-.dlrContainer,
-.plyrContainer
-{
+
+.plyrContainer {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column-reverse;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 #dlrbumpedCards,
 #plyrbumpedCards
 {
     margin-left: 2em;
+    flex-shrink: 2;
 }
 
 .dealtCards {
     display: flex;
 }
 
-#cardcount {
+.plyrCards {
+    display: flex;
+    /* flex-direction: row; */
+    flex-direction: column-reverse;
+}
+
+.dlrCards {
+    display: flex;
+    flex-direction: row;
+}
+
+.cardcount {
     margin-left: .5em;
     margin-right: 2em;
 }
@@ -102,7 +114,7 @@ nav li {
 .players {
     margin: 1rem;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row-reverse;
 }
 
 /*   For formatting the playing card  BEGIN  */
