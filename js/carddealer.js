@@ -11,12 +11,13 @@ cbCardCount.addEventListener("click", toggleCardCount);
 let numOfCardsRemaining = document.getElementById("numOfCardsLeft");
 let shute = [];
 
-
+//This function returns a random number that is used as an index to the deck of cards.
 function randomNumber(upper) {
     return Math.floor( Math.random() * upper );
   }
     
-// This function pulls a card out of the deck and returns the card (which is just the object from the array of objects)
+//This function gets a card from the deck and removes it from that deck. 
+//  It prompts user at the end of the deck to see if they want to continue. 
 function dealCard() {
     if (shute.length == 0) {
         if (confirm("There are no cards left in the deck.\nDo you want to continue with a fresh deck?")) {
@@ -82,7 +83,7 @@ function LoadPage() {
 
 }
     
-
+//This function deals the first 2 cards down
 function dealInitialHands() {
     
     let cardcount = document.querySelectorAll(".cardcount")[0];
@@ -130,12 +131,11 @@ function dealInitialHands() {
 
 }
 
-
+//This function places the card html on the appropriate part of the page.
 function placeCard (player, card) {
     let divCard = document.getElementById(player);
     divCard.appendChild(card);
 }
-
 
 function hitMe(event) {
     let card = dealCard();
@@ -185,6 +185,8 @@ function stay(event) {
 
 }
 
+//This function runs the dealer's bumped cards
+//  Right now there is a 3 second delay between dealing each card. 
 function hitDealer() {
 
     let dlrSum = document.getElementById('dlrSum');
@@ -241,7 +243,9 @@ function newGame() {
     dealInitialHands();
 }
 
-
+//This function computes the total for the player (or dealer). 
+//  It uses a custom attribute (data-value). 
+//  It also accounts for Aces, which of course can have a value of 1 or 11.
 function incrementTotal(cardDiv, sumlabel) {
 
     let divSum = document.getElementById(sumlabel);
